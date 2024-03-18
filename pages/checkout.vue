@@ -1,0 +1,326 @@
+<script setup lang="ts">
+import type { FormError, FormSubmitEvent } from "#ui/types";
+import { useSettingsStore } from "~/stores/settings";
+
+const settingsStore = useSettingsStore();
+const getMinimumOrder = ref(0);
+const getShipping = ref(0);
+const getOrders = ref([]);
+
+onMounted(async () => {
+	if (!settingsStore.fetched) {
+		await settingsStore.fetchSettings();
+	}
+	getMinimumOrder.value = settingsStore.minimumOrder;
+	getShipping.value = settingsStore.shipping;
+	getOrders.value = settingsStore.orders;
+});
+
+const toast = useToast();
+
+const router = useRouter();
+definePageMeta({
+	middleware: ["redirect"],
+});
+
+const goBack = () => {
+	router.back();
+};
+const cartStore = useCartStore();
+
+const items = computed(() => cartStore.items);
+
+const userState = reactive({
+	fullName: "",
+	email: "",
+	address: "",
+	city: "",
+	zipCode: "",
+	phone: "",
+	country: "Tunisia",
+});
+
+const validate = (state: typeof userState): FormError[] => {
+	const errors = [];
+	const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+	const phonePattern = /^[0-9]{8}$/;
+	const zipCodePattern = /^[0-9]{4,5}$/;
+	if (!state.fullName) errors.push({ path: "fullName", message: "Required" });
+	if (!state.email) errors.push({ path: "email", message: "Required" });
+	if (!emailPattern.test(state.email))
+		errors.push({ path: "email", message: "Invalid email" });
+	if (!state.address) errors.push({ path: "address", message: "Required" });
+	if (!state.city) errors.push({ path: "city", message: "Required" });
+	if (!state.zipCode) errors.push({ path: "zipCode", message: "Required" });
+	if (!zipCodePattern.test(state.zipCode))
+		errors.push({ path: "zipCode", message: "Invalid zip code" });
+	if (!state.phone) errors.push({ path: "phoneNumber", message: "Required" });
+	if (!phonePattern.test(state.phone))
+		errors.push({ path: "phoneNumber", message: "Invalid phone number" });
+	if (!state.country) errors.push({ path: "country", message: "Required" });
+	return errors;
+};
+
+const loading = ref(false);
+const submit = async (e: FormSubmitEvent<any>) => {
+	loading.value = true;
+	console.log(e.data, items);
+
+	// validate the form
+	// send the order to the server
+	// refactored products
+	const products = items.value.map((item) => {
+		return {
+			id: item.id,
+			quantity: item.quantity,
+			details: item.details,
+		};
+	});
+	$fetch("/api/product", {
+		method: "POST",
+		body: JSON.stringify({
+			...userState,
+			products,
+			shipping: getShipping.value,
+			subTotal: subTotal.value,
+			total: total.value,
+		}),
+	})
+		.then((data) => {
+			loading.value = false;
+			console.log(data);
+			toast.add({
+				title: "Success",
+				description: "Order has been placed",
+			});
+			setTimeout(() => {
+				cartStore.reset();
+			}, 3000);
+		})
+		.catch((err) => {
+			loading.value = false;
+			console.log(err);
+			toast.add({
+				title: "Error",
+				description: "Something went wrong! Please try again later.",
+				color: "red",
+			});
+		});
+};
+
+const subTotal = computed(() => cartStore.subTotal);
+
+useHead({
+	title: "Checkout",
+});
+
+const increment = (item) => {
+	item.quantity++;
+};
+
+const decrement = (item) => {
+	if (item.quantity > 1) {
+		item.quantity--;
+	}
+};
+
+const hasExtraDiscount = computed(() => {
+	return getOrders?.value.find((order) => {
+		return subTotal.value >= order?.from && subTotal.value <= order?.to;
+	});
+});
+
+const isValid = computed(() => {
+	return subTotal.value >= getMinimumOrder.value;
+});
+
+const total = computed(() => {
+	// subtotal + shipping
+	const subtotalPlusShipping = subTotal.value + getShipping.value;
+	// if there is an extra discount
+	if (hasExtraDiscount.value) {
+		return subtotalPlusShipping - hasExtraDiscount.value?.discount;
+	}
+	return subtotalPlusShipping;
+});
+
+watch(
+	() => cartStore.itemCount,
+	(val) => {
+		if (val === 0) {
+			router.push("/");
+		}
+	}
+);
+</script>
+<template>
+	<!-- checkout form with tailwindcss -->
+
+	<section class="py-12 md:py-16">
+		<UButton
+			@click="goBack"
+			color="white"
+			variant="ghost"
+			class="text-lg flex-start text-gray-900 underline"
+			>{{ $t("back") }}</UButton
+		>
+		<div class="md:w-2/3" v-if="items.length">
+			<div
+				v-for="item in items"
+				class="grid grid-cols-1 md:grid-cols-2 mb-6 rounded-lg bg-white p-6 shadow-md"
+			>
+				<div
+					class="flex flex-col flex-wrap gap-x-3 gap-y-3 items-center md:items-start"
+				>
+					<CustomImg
+						:asset_id="item.defaultImage"
+						:alt="item.name"
+						className="object-cover md:h-32 max-w-28 h-28 rounded-lg"
+					/>
+					<div>
+						<h2 class="text-lg font-bold text-gray-900">{{ item?.name }}</h2>
+						<span class="text-xs block text-gray-900 font-bold">
+							{{
+								formatCurrency(
+									item.discount ? item.priceAfterDiscount : item.defaultPrice
+								)
+							}}
+						</span>
+						<span
+							v-if="item?.discount"
+							class="text-xs text-gray-700 line-through"
+							>{{ formatCurrency(item?.defaultPrice) }}</span
+						>
+					</div>
+				</div>
+
+				<div class="mt-4 flex flex-col flex-wrap gap-y-4">
+					<div
+						class="flex items-center border-gray-100 gap-x-2 justify-center"
+						dir="ltr"
+					>
+						<span
+							class="cursor-pointer font-bold rounded-l bg-gray-100 py-1 px-3.5 duration-100 hover:bg-blue-500 hover:text-blue-50"
+							@click="decrement(item)"
+						>
+							-
+						</span>
+						<UInput
+							class="border bg-white text-center text-xs outline-none w-20"
+							type="number"
+							v-model="item.quantity"
+							min="1"
+						/>
+						<span
+							class="cursor-pointer font-bold rounded-r bg-gray-100 py-1 px-3 duration-100 hover:bg-blue-500 hover:text-blue-50"
+							@click="increment(item)"
+						>
+							+
+						</span>
+					</div>
+					<UTextarea
+						class="max-w-sm"
+						:placeholder="$t('additionalInfo')"
+						v-model="item.details"
+					/>
+
+					<div class="flex items-center justify-between">
+						<p class="text-sm">
+							{{ formatCurrency(cartStore.totalPerItem(item.id)) }}
+						</p>
+						<UButton
+							icon="i-heroicons-x-mark-solid"
+							color="red"
+							@click="cartStore.removeItem(item.id)"
+						/>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="mx-auto px-4">
+			<UDivider class="my-6" />
+			<h3 class="text-center font-bold text-lg text-gray-900">
+				{{ $t("subtotal") }}: {{ formatCurrency(subTotal) }}
+			</h3>
+			<p v-if="hasExtraDiscount" class="text-md text-gray-700 text-center">
+				{{ $t("extraDiscount") }}:
+				{{ formatCurrency(hasExtraDiscount?.discount) }}
+			</p>
+			<p class="text-md text-gray-700 text-center">
+				{{ $t("delivery") }}: {{ formatCurrency(getShipping) }}
+			</p>
+			<h1 class="text-xl font-bold text-center text-gray-900 my-5">
+				{{ $t("total") }}: {{ formatCurrency(total) }}
+			</h1>
+			<UForm
+				:state="userState"
+				v-if="isValid"
+				:validate="validate"
+				@submit="submit"
+				class="flex flex-col items-center w-full gap-y-3"
+			>
+				<UFormGroup
+					:label="$t('fullname')"
+					name="fullName"
+					class="w-full md:w-96 max-w-md"
+				>
+					<UInput size="xl" type="text" v-model="userState.fullName" />
+				</UFormGroup>
+
+				<UFormGroup
+					:label="$t('email')"
+					name="email"
+					class="w-full md:w-96 max-w-md"
+				>
+					<UInput size="xl" type="email" v-model="userState.email" />
+				</UFormGroup>
+
+				<UFormGroup
+					:label="$t('address')"
+					name="address"
+					class="w-full md:w-96 max-w-md"
+				>
+					<UInput size="xl" type="text" v-model="userState.address" />
+				</UFormGroup>
+
+				<UFormGroup
+					:label="$t('city')"
+					name="city"
+					class="w-full md:w-96 max-w-md"
+				>
+					<UInput size="xl" type="text" v-model="userState.city" />
+				</UFormGroup>
+
+				<UFormGroup
+					:label="$t('country')"
+					name="country"
+					class="w-full md:w-96 max-w-md"
+				>
+					<UInput size="xl" type="text" v-model="userState.country" disabled />
+				</UFormGroup>
+
+				<UFormGroup
+					:label="$t('zipCode')"
+					name="zipCode"
+					class="w-full md:w-96 max-w-md"
+				>
+					<UInput size="xl" type="number" v-model="userState.zipCode" />
+				</UFormGroup>
+
+				<UFormGroup
+					:label="$t('phone-number')"
+					name="phoneNumber"
+					class="w-full md:w-96 max-w-md"
+				>
+					<UInput size="xl" type="number" v-model="userState.phone" />
+				</UFormGroup>
+				<UButton size="xl" color="blue" type="submit" :loading="loading">
+					{{ loading ? $t("loading") + " ..." : $t("order") }}
+				</UButton>
+			</UForm>
+			<p v-else class="text-center text-red-500 font-bold text-lg">
+				{{ $t("minimumOrderValue") }}: {{ formatCurrency(getMinimumOrder) }}
+			</p>
+		</div>
+	</section>
+</template>

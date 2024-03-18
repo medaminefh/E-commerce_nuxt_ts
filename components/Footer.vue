@@ -1,0 +1,117 @@
+<script setup>
+// Define your chat options
+const options = {
+	pageId: "130667832508992", // Your Facebook Page ID
+	locale: "fr_FR", // Customize the chat theme color
+	themeColor: "#4267B2", // Customize the chat theme color
+};
+</script>
+<template>
+	<!-- Footer template in tailwindcss -->
+	<client-only>
+		<nuxt-facebook-chat :options="options" />
+	</client-only>
+	<footer class="bg-white">
+		<div class="mx-auto w-full max-w-screen-xl">
+			<div class="grid grid-cols-1 md:grid-cols-3 gap-8 px-4 py-6 lg:py-8">
+				<div>
+					<h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase">
+						{{ $t("about-us") }}
+					</h2>
+					<p class="text-gray-500 font-medium">
+						{{ $t("description") }}
+					</p>
+				</div>
+				<div>
+					<h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase">
+						{{ $t("legal") }}
+					</h2>
+					<ul class="text-gray-500 font-medium">
+						<li class="mb-4 underline">
+							<a href="#" class="hover:underline">{{ $t("privacy-policy") }}</a>
+						</li>
+						<li class="mb-4 underline">
+							<a href="#" class="hover:underline">{{ $t("licensing") }}</a>
+						</li>
+						<li class="mb-4 underline">
+							<a href="#" class="hover:underline">{{
+								$t("terms-and-conditions")
+							}}</a>
+						</li>
+					</ul>
+				</div>
+
+				<div class="space-y-4" id="contact">
+					<div>
+						<h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase">
+							{{ $t("find-us-on") }}
+						</h2>
+						<ul class="text-gray-500 font-medium flex flex-wrap gap-x-4">
+							<li class="mb-4">
+								<NuxtLink
+									to="https://www.facebook.com/Merceriezeramdine"
+									target="_blank"
+									no-rel
+									title="facebook"
+								>
+									<UIcon
+										name="i-bxl-facebook-circle"
+										class="w-7 h-7 hover:text-blue-700 hover:scale-110 transition-all"
+									/>
+								</NuxtLink>
+							</li>
+							<li class="mb-4">
+								<NuxtLink
+									to="https://www.instagram.com/mercerie_maryouma"
+									target="_blank"
+									no-rel
+									title="instagram"
+									><UIcon
+										name="i-bxl-instagram-alt"
+										class="w-7 h-7 hover:text-red-500 hover:scale-110 transition-all"
+								/></NuxtLink>
+							</li>
+							<li class="mb-4">
+								<NuxtLink
+									to="https://www.tiktok.com/@mercerie.maryouma"
+									target="_blank"
+									no-rel
+									title="tiktok"
+									><UIcon
+										name="i-bxl-tiktok"
+										class="w-7 h-7 hover:text-black hover:scale-110 transition-all"
+								/></NuxtLink>
+							</li>
+							<li class="mb-4">
+								<NuxtLink
+									to="https://api.whatsapp.com/send?phone=21622432868"
+									target="_blank"
+									no-rel
+									title="whatsapp"
+									><UIcon
+										name="i-bxl-whatsapp"
+										class="w-7 h-7 hover:text-green-700 hover:scale-110 transition-all"
+								/></NuxtLink>
+							</li>
+						</ul>
+					</div>
+
+					<UDivider />
+					<div>
+						<h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase">
+							{{ $t("call-us") }}
+						</h2>
+						<p class="text-base font-light rtl:text-end" dir="ltr">
+							(+216) 22 432 868
+						</p>
+					</div>
+				</div>
+			</div>
+			<div class="px-4 py-6 bg-gray-100 flex justify-center" dir="ltr">
+				<span class="text-sm text-gray-500 md:text-center"
+					>Copyright © 2024 Mercerie Maryouma. All Rights Reserved.
+				</span>
+			</div>
+		</div>
+	</footer>
+</template>
