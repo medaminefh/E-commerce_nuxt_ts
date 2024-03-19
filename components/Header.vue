@@ -1,31 +1,8 @@
 <script setup>
-const { locale } = useI18n();
 const open = ref(false);
 const cartStore = storeToRefs(useCartStore());
 
 const itemsCount = computed(() => cartStore.itemCount.value);
-
-const languages = [
-	{
-		id: "ar",
-		label: "Ar",
-		icon: "i-circle-flags-tn",
-	},
-	{
-		id: "fr",
-		label: "Fr",
-		icon: "i-circle-flags-fr",
-	},
-];
-
-const selected = ref(languages.find((el) => el.id === locale.value));
-
-watch(
-	() => selected.value,
-	(val) => {
-		locale.value = val.id;
-	}
-);
 </script>
 
 <template>
@@ -73,7 +50,7 @@ watch(
 			<h1
 				class="bg-gradient-to-r bg-clip-text text-transparent from-[#662D8C] to-[#ED1E79] hidden sm:block ml-2 text-lg font-bold"
 			>
-				Mercerie Maryouma
+				E-store
 			</h1>
 			<img
 				src="/logo.jpg"
@@ -105,16 +82,6 @@ watch(
 					icon="i-heroicons-shopping-cart"
 				/>
 			</UChip>
-			<!-- Languages -->
-			<USelectMenu
-				v-model="selected"
-				:options="languages"
-				class="hidden md:block"
-			>
-				<template #leading>
-					<UIcon :name="selected.icon" class="w-4 h-4 mx-0.5" />
-				</template>
-			</USelectMenu>
 
 			<!-- Contact btn -->
 			<UButton
@@ -122,7 +89,7 @@ watch(
 				color="white"
 				title="contact"
 				class="px-3 py-2 ring-1 font-semibold text-gray-700 text-sm rounded-md hover:bg-gray-100 hover:text-gray-900"
-				>{{ $t("contact") }}</UButton
+				>{{ "contact" }}</UButton
 			>
 		</div>
 	</div>
@@ -137,18 +104,8 @@ watch(
 				href="#contact"
 				title="contact"
 				class="px-3 font-light text-gray-700 text-base underline"
-				>{{ $t("contact") }}</a
+				>{{ "contact" }}</a
 			>
-
-			<USelectMenu
-				v-model="selected"
-				:options="languages"
-				class="block md:hidden"
-			>
-				<template #leading>
-					<UIcon :name="selected.icon" class="w-4 h-4 mx-0.5" />
-				</template>
-			</USelectMenu>
 		</div>
 	</div>
 </template>

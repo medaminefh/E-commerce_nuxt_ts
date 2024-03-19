@@ -1,42 +1,27 @@
-<script setup>
-// Define your chat options
-const options = {
-	pageId: "130667832508992", // Your Facebook Page ID
-	locale: "fr_FR", // Customize the chat theme color
-	themeColor: "#4267B2", // Customize the chat theme color
-};
-</script>
+<script setup></script>
 <template>
-	<!-- Footer template in tailwindcss -->
-	<client-only>
-		<nuxt-facebook-chat :options="options" />
-	</client-only>
 	<footer class="bg-white">
 		<div class="mx-auto w-full max-w-screen-xl">
 			<div class="grid grid-cols-1 md:grid-cols-3 gap-8 px-4 py-6 lg:py-8">
 				<div>
 					<h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase">
-						{{ $t("about-us") }}
+						About-us
 					</h2>
-					<p class="text-gray-500 font-medium">
-						{{ $t("description") }}
-					</p>
+					<p class="text-gray-500 font-medium">description</p>
 				</div>
 				<div>
 					<h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase">
-						{{ $t("legal") }}
+						legal
 					</h2>
 					<ul class="text-gray-500 font-medium">
 						<li class="mb-4 underline">
-							<a href="#" class="hover:underline">{{ $t("privacy-policy") }}</a>
+							<a href="#" class="hover:underline">privacy-policy</a>
 						</li>
 						<li class="mb-4 underline">
-							<a href="#" class="hover:underline">{{ $t("licensing") }}</a>
+							<a href="#" class="hover:underline">licensing</a>
 						</li>
 						<li class="mb-4 underline">
-							<a href="#" class="hover:underline">{{
-								$t("terms-and-conditions")
-							}}</a>
+							<a href="#" class="hover:underline"> terms-and-conditions</a>
 						</li>
 					</ul>
 				</div>
@@ -44,7 +29,7 @@ const options = {
 				<div class="space-y-4" id="contact">
 					<div>
 						<h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase">
-							{{ $t("find-us-on") }}
+							find-us-on
 						</h2>
 						<ul class="text-gray-500 font-medium flex flex-wrap gap-x-4">
 							<li class="mb-4">
@@ -99,17 +84,17 @@ const options = {
 					<UDivider />
 					<div>
 						<h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase">
-							{{ $t("call-us") }}
+							call us
 						</h2>
 						<p class="text-base font-light rtl:text-end" dir="ltr">
-							(+216) 22 432 868
+							(+656) 56 000 000
 						</p>
 					</div>
 				</div>
 			</div>
 			<div class="px-4 py-6 bg-gray-100 flex justify-center" dir="ltr">
 				<span class="text-sm text-gray-500 md:text-center"
-					>Copyright © 2024 Mercerie Maryouma. All Rights Reserved.
+					>Copyright © 2024 E-store. All Rights Reserved.
 				</span>
 			</div>
 		</div>

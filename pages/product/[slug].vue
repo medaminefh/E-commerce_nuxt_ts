@@ -1,10 +1,8 @@
 <script setup>
-import { fetchProduct } from "~/utils/groqFetches";
-
 const route = useRoute();
 const slug = route.params.slug;
 
-const data = await fetchProduct(slug);
+const data = ref(null);
 
 const mainImg = ref(data?.value?.defaultImage);
 
@@ -44,8 +42,8 @@ const addProductToCart = () => {
 					<div class="lg:flex lg:items-start">
 						<div class="lg:order-2 lg:ml-5">
 							<div class="max-w-xl rounded-lg">
-								<CustomImg
-									:asset_id="mainImg"
+								<img
+									:src="mainImg"
 									:alt="data?.name"
 									className="rounded-lg object-cover h-56 w-56 md:h-auto md:w-auto"
 								/>
@@ -66,8 +64,8 @@ const addProductToCart = () => {
 												: 'border-2 border-transparent'
 										"
 									>
-										<CustomImg
-											:asset_id="data.defaultImage"
+										<img
+											:src="data.defaultImage"
 											:alt="data?.name"
 											className="w-full h-full"
 										/>
@@ -83,8 +81,8 @@ const addProductToCart = () => {
 												: 'border-2 border-transparent'
 										"
 									>
-										<CustomImg
-											:asset_id="image"
+										<img
+											:src="image"
 											:alt="data?.name"
 											className="h-full w-full"
 										/>

@@ -1,20 +1,5 @@
 <script setup lang="ts">
 import type { FormError, FormSubmitEvent } from "#ui/types";
-import { useSettingsStore } from "~/stores/settings";
-
-const settingsStore = useSettingsStore();
-const getMinimumOrder = ref(0);
-const getShipping = ref(0);
-const getOrders = ref([]);
-
-onMounted(async () => {
-	if (!settingsStore.fetched) {
-		await settingsStore.fetchSettings();
-	}
-	getMinimumOrder.value = settingsStore.minimumOrder;
-	getShipping.value = settingsStore.shipping;
-	getOrders.value = settingsStore.orders;
-});
 
 const toast = useToast();
 
@@ -81,7 +66,6 @@ const submit = async (e: FormSubmitEvent<any>) => {
 		body: JSON.stringify({
 			...userState,
 			products,
-			shipping: getShipping.value,
 			subTotal: subTotal.value,
 			total: total.value,
 		}),
@@ -124,26 +108,6 @@ const decrement = (item) => {
 	}
 };
 
-const hasExtraDiscount = computed(() => {
-	return getOrders?.value.find((order) => {
-		return subTotal.value >= order?.from && subTotal.value <= order?.to;
-	});
-});
-
-const isValid = computed(() => {
-	return subTotal.value >= getMinimumOrder.value;
-});
-
-const total = computed(() => {
-	// subtotal + shipping
-	const subtotalPlusShipping = subTotal.value + getShipping.value;
-	// if there is an extra discount
-	if (hasExtraDiscount.value) {
-		return subtotalPlusShipping - hasExtraDiscount.value?.discount;
-	}
-	return subtotalPlusShipping;
-});
-
 watch(
 	() => cartStore.itemCount,
 	(val) => {
@@ -172,8 +136,8 @@ watch(
 				<div
 					class="flex flex-col flex-wrap gap-x-3 gap-y-3 items-center md:items-start"
 				>
-					<CustomImg
-						:asset_id="item.defaultImage"
+					<img
+						:src="item.defaultImage"
 						:alt="item.name"
 						className="object-cover md:h-32 max-w-28 h-28 rounded-lg"
 					/>
@@ -225,9 +189,6 @@ watch(
 					/>
 
 					<div class="flex items-center justify-between">
-						<p class="text-sm">
-							{{ formatCurrency(cartStore.totalPerItem(item.id)) }}
-						</p>
 						<UButton
 							icon="i-heroicons-x-mark-solid"
 							color="red"
@@ -240,21 +201,14 @@ watch(
 		<div class="mx-auto px-4">
 			<UDivider class="my-6" />
 			<h3 class="text-center font-bold text-lg text-gray-900">
-				{{ $t("subtotal") }}: {{ formatCurrency(subTotal) }}
+				{{ $t("subtotal") }}: {{ subTotal }}
 			</h3>
-			<p v-if="hasExtraDiscount" class="text-md text-gray-700 text-center">
-				{{ $t("extraDiscount") }}:
-				{{ formatCurrency(hasExtraDiscount?.discount) }}
-			</p>
-			<p class="text-md text-gray-700 text-center">
-				{{ $t("delivery") }}: {{ formatCurrency(getShipping) }}
-			</p>
+			<p class="text-md text-gray-700 text-center">{{ $t("delivery") }}: 8</p>
 			<h1 class="text-xl font-bold text-center text-gray-900 my-5">
-				{{ $t("total") }}: {{ formatCurrency(total) }}
+				{{ $t("total") }}: {{ subTotal + 8 }}
 			</h1>
 			<UForm
 				:state="userState"
-				v-if="isValid"
 				:validate="validate"
 				@submit="submit"
 				class="flex flex-col items-center w-full gap-y-3"
@@ -318,9 +272,6 @@ watch(
 					{{ loading ? $t("loading") + " ..." : $t("order") }}
 				</UButton>
 			</UForm>
-			<p v-else class="text-center text-red-500 font-bold text-lg">
-				{{ $t("minimumOrderValue") }}: {{ formatCurrency(getMinimumOrder) }}
-			</p>
 		</div>
 	</section>
 </template>

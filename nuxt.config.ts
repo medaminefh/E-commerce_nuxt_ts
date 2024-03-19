@@ -4,15 +4,7 @@ export default defineNuxtConfig({
 	runtimeConfig: {
 		SERVER_URL: process.env.SERVER_URL || "http://localhost:5555",
 	},
-	modules: [
-		"@nuxt/ui",
-		"@nuxtjs/i18n",
-		"@pinia/nuxt",
-		"@pinia-plugin-persistedstate/nuxt",
-	],
-	i18n: {
-		vueI18n: "./i18n.config.ts",
-	},
+	modules: ["@nuxt/ui", "@pinia/nuxt", "@pinia-plugin-persistedstate/nuxt"],
 	colorMode: {
 		preference: "light",
 	},
