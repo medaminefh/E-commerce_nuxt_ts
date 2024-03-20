@@ -1,6 +1,6 @@
 <template>
 	<NuxtLoadingIndicator />
-	<Html :lang="locale" :dir="locale === 'ar' ? 'rtl' : 'ltr'">
+	<Html>
 		<UCard
 			:ui="{ header: { base: 'sticky top-0 bg-white z-10 border-b py-4' } }"
 		>
@@ -17,27 +17,17 @@
 </template>
 
 <script setup>
-const { locale, t } = useI18n();
-
 useHead({
-	title: "Mercerie Maryouma",
+	title: "E-store",
 	meta: [{ name: "viewport", content: "width=device-width, initial-scale=1" }],
 	link: [{ rel: "icon", href: "/logo.jpg" }],
-	htmlAttrs: {
-		lang: locale.value,
-		dir: locale.value === "ar" ? "rtl" : "ltr",
-	},
 });
 
 useSeoMeta({
-	title: "Mercerie Maryouma",
-	ogTitle: "Mercerie Maryouma",
-	description: t("about"),
-	ogDescription: t("about"),
-	ogImage:
-		"https://lh5.googleusercontent.com/p/AF1QipPXACoQwrznNAVbMx7MPh95RJKBBOQH4c2_bIef=w408-h408-k-no",
-	twitterCard:
-		"https://lh5.googleusercontent.com/p/AF1QipPXACoQwrznNAVbMx7MPh95RJKBBOQH4c2_bIef=w408-h408-k-no",
+	title: "E-store",
+	ogTitle: "E-store",
+	description: "about",
+	ogDescription: "about",
 });
 </script>
 

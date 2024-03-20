@@ -26,9 +26,9 @@ const addProductToCart = () => {
 	>
 		<NuxtLink
 			class="relative mx-3 mt-3 flex h-60 md:h-56 overflow-hidden rounded-xl"
-			:to="'/product/' + product?.slug"
+			:to="'/product/' + product?.id"
 		>
-			<img :src="product?.img" :alt="product?.name" />
+			<img :src="product?.image" :alt="product?.title" />
 
 			<span
 				v-if="product?.discount"
@@ -38,11 +38,11 @@ const addProductToCart = () => {
 			>
 		</NuxtLink>
 		<div class="mt-4 px-5 pb-5">
-			<NuxtLink :to="'/product/' + product?.slug">
+			<NuxtLink :to="'/product/' + product?.id">
 				<h5
 					class="text-xl tracking-tight text-slate-900 text-ellipsis line-clamp-1"
 				>
-					{{ product?.name }}
+					{{ product?.title }}
 				</h5>
 			</NuxtLink>
 			<div class="mt-2 mb-5 flex items-center gap-x-1">
@@ -61,7 +61,7 @@ const addProductToCart = () => {
 				class="flex items-center justify-center flex-wrap rounded-md bg-slate-900 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-blue-300"
 				icon="i-heroicons-shopping-cart"
 			>
-				{{ "Add to cart" }}</UButton
+				Add to cart</UButton
 			>
 		</div>
 	</div>

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { FormError, FormSubmitEvent } from "#ui/types";
+import type { IProduct } from "~/types/productType";
 
 const toast = useToast();
 
@@ -98,11 +99,11 @@ useHead({
 	title: "Checkout",
 });
 
-const increment = (item) => {
+const increment = (item: IProduct) => {
 	item.quantity++;
 };
 
-const decrement = (item) => {
+const decrement = (item: IProduct) => {
 	if (item.quantity > 1) {
 		item.quantity--;
 	}
@@ -126,7 +127,7 @@ watch(
 			color="white"
 			variant="ghost"
 			class="text-lg flex-start text-gray-900 underline"
-			>{{ $t("back") }}</UButton
+			>Back</UButton
 		>
 		<div class="md:w-2/3" v-if="items.length">
 			<div
@@ -137,23 +138,19 @@ watch(
 					class="flex flex-col flex-wrap gap-x-3 gap-y-3 items-center md:items-start"
 				>
 					<img
-						:src="item.defaultImage"
-						:alt="item.name"
-						className="object-cover md:h-32 max-w-28 h-28 rounded-lg"
+						:src="item.image"
+						:alt="item.title"
+						className="object-scale-down md:h-32 max-w-28 h-28 rounded-lg"
 					/>
 					<div>
-						<h2 class="text-lg font-bold text-gray-900">{{ item?.name }}</h2>
+						<h2 class="text-lg font-bold text-gray-900">{{ item?.title }}</h2>
 						<span class="text-xs block text-gray-900 font-bold">
-							{{
-								formatCurrency(
-									item.discount ? item.priceAfterDiscount : item.defaultPrice
-								)
-							}}
+							{{ item.price }}
 						</span>
 						<span
 							v-if="item?.discount"
 							class="text-xs text-gray-700 line-through"
-							>{{ formatCurrency(item?.defaultPrice) }}</span
+							>{{ item?.price }}</span
 						>
 					</div>
 				</div>
@@ -184,7 +181,7 @@ watch(
 					</div>
 					<UTextarea
 						class="max-w-sm"
-						:placeholder="$t('additionalInfo')"
+						placeholder="Additional information"
 						v-model="item.details"
 					/>
 
@@ -201,11 +198,11 @@ watch(
 		<div class="mx-auto px-4">
 			<UDivider class="my-6" />
 			<h3 class="text-center font-bold text-lg text-gray-900">
-				{{ $t("subtotal") }}: {{ subTotal }}
+				subtotal: {{ subTotal }}
 			</h3>
-			<p class="text-md text-gray-700 text-center">{{ $t("delivery") }}: 8</p>
+			<p class="text-md text-gray-700 text-center">delivery: 8</p>
 			<h1 class="text-xl font-bold text-center text-gray-900 my-5">
-				{{ $t("total") }}: {{ subTotal + 8 }}
+				total: {{ subTotal + 8 }}
 			</h1>
 			<UForm
 				:state="userState"
@@ -214,39 +211,31 @@ watch(
 				class="flex flex-col items-center w-full gap-y-3"
 			>
 				<UFormGroup
-					:label="$t('fullname')"
+					label="Full Name"
 					name="fullName"
 					class="w-full md:w-96 max-w-md"
 				>
 					<UInput size="xl" type="text" v-model="userState.fullName" />
 				</UFormGroup>
 
-				<UFormGroup
-					:label="$t('email')"
-					name="email"
-					class="w-full md:w-96 max-w-md"
-				>
+				<UFormGroup label="Email" name="email" class="w-full md:w-96 max-w-md">
 					<UInput size="xl" type="email" v-model="userState.email" />
 				</UFormGroup>
 
 				<UFormGroup
-					:label="$t('address')"
+					label="Address"
 					name="address"
 					class="w-full md:w-96 max-w-md"
 				>
 					<UInput size="xl" type="text" v-model="userState.address" />
 				</UFormGroup>
 
-				<UFormGroup
-					:label="$t('city')"
-					name="city"
-					class="w-full md:w-96 max-w-md"
-				>
+				<UFormGroup label="City" name="city" class="w-full md:w-96 max-w-md">
 					<UInput size="xl" type="text" v-model="userState.city" />
 				</UFormGroup>
 
 				<UFormGroup
-					:label="$t('country')"
+					label="Country"
 					name="country"
 					class="w-full md:w-96 max-w-md"
 				>
@@ -254,7 +243,7 @@ watch(
 				</UFormGroup>
 
 				<UFormGroup
-					:label="$t('zipCode')"
+					label="Zip Code"
 					name="zipCode"
 					class="w-full md:w-96 max-w-md"
 				>
@@ -262,14 +251,14 @@ watch(
 				</UFormGroup>
 
 				<UFormGroup
-					:label="$t('phone-number')"
+					label="Phone Number"
 					name="phoneNumber"
 					class="w-full md:w-96 max-w-md"
 				>
 					<UInput size="xl" type="number" v-model="userState.phone" />
 				</UFormGroup>
 				<UButton size="xl" color="blue" type="submit" :loading="loading">
-					{{ loading ? $t("loading") + " ..." : $t("order") }}
+					{{ loading ? "loading" + " ..." : "order" }}
 				</UButton>
 			</UForm>
 		</div>

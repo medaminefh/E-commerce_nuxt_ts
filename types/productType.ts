@@ -1,12 +1,12 @@
 // product interface
 export interface IProduct {
 	id: string;
-	name: string;
-	defaultImage: string;
+	title: string;
+	image: string;
 	images: string[];
-	productCategory: string;
+	category: string;
 	description: string;
-	defaultPrice: number;
+	price: number;
 	discount: boolean;
 	discountValue: number;
 	priceAfterDiscount: number;

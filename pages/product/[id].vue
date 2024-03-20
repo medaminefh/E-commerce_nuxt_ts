@@ -1,17 +1,15 @@
 <script setup>
 const route = useRoute();
-const slug = route.params.slug;
+const id = route.params.id;
+const { data } = await useFetch("/api/products/" + id);
 
-const data = ref(null);
-
-const mainImg = ref(data?.value?.defaultImage);
+const mainImg = ref(data?.value?.image);
 
 const handleChangedImage = (image) => {
 	mainImg.value = image;
 };
 
 const toast = useToast();
-const { t } = useI18n();
 
 const cartStore = useCartStore();
 
@@ -19,7 +17,7 @@ const addProductToCart = () => {
 	cartStore.addItem(data?.value);
 	toast.add({
 		title: "Success",
-		description: t("product-added"),
+		description: "product-added",
 		timeout: 600,
 	});
 };
@@ -32,7 +30,7 @@ const addProductToCart = () => {
 				color="white"
 				variant="ghost"
 				class="text-lg text-gray-900 underline"
-				>{{ $t("back") }}</UButton
+				>back</UButton
 			>
 
 			<div
@@ -41,11 +39,11 @@ const addProductToCart = () => {
 				<div class="lg:col-span-3 lg:row-end-1">
 					<div class="lg:flex lg:items-start">
 						<div class="lg:order-2 lg:ml-5">
-							<div class="max-w-xl rounded-lg">
+							<div class="max-w-sm rounded-lg">
 								<img
 									:src="mainImg"
-									:alt="data?.name"
-									className="rounded-lg object-cover h-56 w-56 md:h-auto md:w-auto"
+									:alt="data?.title"
+									class="object-scale-down h-56 w-56 md:h-auto"
 								/>
 							</div>
 						</div>
@@ -59,16 +57,12 @@ const addProductToCart = () => {
 										@click="handleChangedImage(data.defaultImage)"
 										class="cursor-pointer mb-3 flex-shrink-0 w-20 h-20 overflow-hidden rounded-lg text-center"
 										:class="
-											mainImg === data.defaultImage
+											mainImg === data.image
 												? 'border-2 border-gray-900'
 												: 'border-2 border-transparent'
 										"
 									>
-										<img
-											:src="data.defaultImage"
-											:alt="data?.name"
-											className="w-full h-full"
-										/>
+										<img :src="data.image" :alt="data?.title" />
 									</div>
 									<div
 										v-for="image in data.images"
@@ -81,11 +75,7 @@ const addProductToCart = () => {
 												: 'border-2 border-transparent'
 										"
 									>
-										<img
-											:src="image"
-											:alt="data?.name"
-											className="h-full w-full"
-										/>
+										<img :src="image" :alt="data?.title" />
 									</div>
 								</div>
 							</div>
@@ -95,19 +85,13 @@ const addProductToCart = () => {
 
 				<div class="lg:col-span-2 lg:row-span-2 lg:row-end-2">
 					<h1 class="md: text-2xl font-bold text-gray-900 md:text-3xl">
-						{{ data?.name }}
+						{{ data?.title }}
 					</h1>
-					<p class="mt-4 text-2xl font-bold text-gray-900">
-						{{
-							formatCurrency(
-								data.discount ? data.priceAfterDiscount : data.defaultPrice
-							)
-						}}
-					</p>
+					<p class="mt-4 text-2xl font-bold text-gray-900">{{ data.price }}</p>
 					<span
 						v-if="data.discount"
 						class="text-sm line-through text-gray-700 ml-1"
-						>{{ formatCurrency(data?.defaultPrice) }}</span
+						>{{ data?.price }}</span
 					>
 					<p class="mt-4 text-gray-600">
 						{{ data?.description }}
@@ -120,7 +104,7 @@ const addProductToCart = () => {
 					class="max-w-xs"
 					color="blue"
 				>
-					{{ $t("i-buy") }}
+					Buy
 				</UButton>
 			</div>
 		</div>
