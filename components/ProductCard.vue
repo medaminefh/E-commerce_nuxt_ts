@@ -26,7 +26,7 @@ const addProductToCart = () => {
 	>
 		<NuxtLink
 			class="relative mx-3 mt-3 flex h-60 md:h-56 overflow-hidden rounded-xl"
-			:to="'/product/' + product?.id"
+			:to="'/product/' + product?._id"
 		>
 			<img :src="product?.image" :alt="product?.title" />
 
@@ -34,11 +34,11 @@ const addProductToCart = () => {
 				v-if="product?.discount"
 				dir="ltr"
 				class="absolute top-0 left-0 m-2 rounded-full bg-black text-white px-2 text-center text-sm font-medium"
-				>{{ product.discount }}% off</span
+				>{{ product.discountValue }}% off</span
 			>
 		</NuxtLink>
 		<div class="mt-4 px-5 pb-5">
-			<NuxtLink :to="'/product/' + product?.id">
+			<NuxtLink :to="'/product/' + product?._id">
 				<h5
 					class="text-xl tracking-tight text-slate-900 text-ellipsis line-clamp-1"
 				>
@@ -47,7 +47,7 @@ const addProductToCart = () => {
 			</NuxtLink>
 			<div class="mt-2 mb-5 flex items-center gap-x-1">
 				<span class="text-xl font-bold text-slate-900">{{
-					product.price
+					product.priceAfterDiscount
 				}}</span>
 				<span
 					v-if="product?.discount"
