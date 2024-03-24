@@ -83,6 +83,15 @@ const itemsCount = computed(() => cartStore.itemCount.value);
 				/>
 			</UChip>
 
+			<UButton
+				color="white"
+				variant="ghost"
+				class="text-gray-800 p-0"
+				size="xl"
+				icon="i-heroicons-user-circle"
+				to="/signin"
+			/>
+
 			<!-- Contact btn -->
 			<UButton
 				to="#contact"
