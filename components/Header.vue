@@ -6,10 +6,8 @@ const itemsCount = computed(() => cartStore.itemCount.value);
 </script>
 
 <template>
-	<div
-		class="flex items-center justify-between ltr:flex-row-reverse md:ltr:flex-row"
-	>
-		<div class="flex gap-x-5 md:hidden rtl:flex-row-reverse">
+	<div class="flex items-center justify-between flex-row-reverse">
+		<div class="flex gap-x-5 md:hidden">
 			<UChip
 				inset
 				:text="itemsCount"
@@ -44,23 +42,6 @@ const itemsCount = computed(() => cartStore.itemCount.value);
 				<UIcon name="i-heroicons-x-mark-solid" class="w-6 h-6" v-if="open" />
 			</UButton>
 		</div>
-
-		<!-- Logo -->
-		<NuxtLink to="/" class="flex items-center ltr:flex-row-reverse">
-			<h1
-				class="bg-gradient-to-r bg-clip-text text-transparent from-[#662D8C] to-[#ED1E79] hidden sm:block ml-2 text-lg font-bold"
-			>
-				E-store
-			</h1>
-			<img
-				src="/logo.jpg"
-				:width="40"
-				:height="40"
-				alt="mercerie zeramdine logo"
-				class="rounded-full"
-			/>
-		</NuxtLink>
-
 		<!-- Links -->
 		<div class="md:flex gap-x-4 items-center hidden">
 			<UChip
@@ -101,6 +82,22 @@ const itemsCount = computed(() => cartStore.itemCount.value);
 				>{{ "contact" }}</UButton
 			>
 		</div>
+
+		<!-- Logo -->
+		<NuxtLink to="/" class="flex items-center gap-x-2">
+			<h1
+				class="bg-gradient-to-r bg-clip-text text-transparent from-[#662D8C] to-[#ED1E79] hidden sm:block ml-2 text-lg font-bold"
+			>
+				E-store
+			</h1>
+			<img
+				src="/logo.jpg"
+				:width="40"
+				:height="40"
+				alt="mercerie zeramdine logo"
+				class="rounded-full"
+			/>
+		</NuxtLink>
 	</div>
 
 	<div
@@ -108,13 +105,19 @@ const itemsCount = computed(() => cartStore.itemCount.value);
 		v-if="open"
 		@click.stop
 	>
-		<div class="flex justify-between items-center">
+		<div class="flex flex-col">
 			<a
 				href="#contact"
 				title="contact"
 				class="px-3 font-light text-gray-700 text-base underline"
-				>{{ "contact" }}</a
+				>Contact</a
 			>
+			<NuxtLink
+				to="/signin"
+				class="px-3 font-light text-gray-700 text-base underline"
+			>
+				Signup/Login
+			</NuxtLink>
 		</div>
 	</div>
 </template>

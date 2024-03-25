@@ -10,10 +10,10 @@ export const useCartStore = defineStore("cartStore", {
 	actions: {
 		// add an item to the cart
 		addItem(item: IProduct) {
-			if (this.items.find((i) => i.id === item.id)) {
+			if (this.items.find((i) => i._id === item._id)) {
 				// if the item is already in the cart, increase the quantity
 				this.items = this.items.map((i) =>
-					i.id === item.id ? { ...i, quantity: i.quantity! + 1 } : i
+					i._id === item._id ? { ...i, quantity: i.quantity! + 1 } : i
 				);
 				return;
 			}
@@ -22,7 +22,7 @@ export const useCartStore = defineStore("cartStore", {
 		},
 		// remove an item from the cart
 		removeItem(id: string) {
-			this.items = this.items.filter((i) => i.id !== id);
+			this.items = this.items.filter((i) => i._id !== id);
 		},
 		// reset the state of the cart
 		reset() {

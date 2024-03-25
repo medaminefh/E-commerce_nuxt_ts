@@ -11,6 +11,7 @@ const toast = useToast();
 const cartStore = useCartStore();
 
 const addProductToCart = () => {
+	console.log("addProductToCart", props.product);
 	cartStore.addItem(props.product);
 	toast.add({
 		title: "Success",
@@ -32,9 +33,13 @@ const addProductToCart = () => {
 
 			<span
 				v-if="product?.discount"
-				dir="ltr"
 				class="absolute top-0 left-0 m-2 rounded-full bg-black text-white px-2 text-center text-sm font-medium"
-				>{{ product.discountValue }}% off</span
+				>{{
+					calculateDiscountPercentage(
+						product.price,
+						product.priceAfterDiscount
+					)
+				}}% off</span
 			>
 		</NuxtLink>
 		<div class="mt-4 px-5 pb-5">
@@ -47,12 +52,14 @@ const addProductToCart = () => {
 			</NuxtLink>
 			<div class="mt-2 mb-5 flex items-center gap-x-1">
 				<span class="text-xl font-bold text-slate-900">{{
-					product.priceAfterDiscount
+					formatCurrency(
+						product.discount ? product.priceAfterDiscount : product.price
+					)
 				}}</span>
 				<span
 					v-if="product?.discount"
 					class="text-sm text-slate-900 line-through"
-					>{{ product?.price }}</span
+					>{{ formatCurrency(product?.price) }}</span
 				>
 			</div>
 			<UButton

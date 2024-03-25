@@ -1,6 +1,6 @@
 // product interface
 export interface IProduct {
-	id: string;
+	_id: string;
 	title: string;
 	image: string;
 	images: string[];

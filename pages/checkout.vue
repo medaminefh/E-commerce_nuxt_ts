@@ -145,7 +145,7 @@ watch(
 					<div>
 						<h2 class="text-lg font-bold text-gray-900">{{ item?.title }}</h2>
 						<span class="text-xs block text-gray-900 font-bold">
-							{{ item.price }}
+							{{ item.discount ? item.priceAfterDiscount : item.price }}
 						</span>
 						<span
 							v-if="item?.discount"
@@ -184,12 +184,18 @@ watch(
 						placeholder="Additional information"
 						v-model="item.details"
 					/>
+					<span>{{
+						calculatePrice(
+							item.discount ? item.priceAfterDiscount : item.price,
+							item.quantity
+						)
+					}}</span>
 
 					<div class="flex items-center justify-between">
 						<UButton
 							icon="i-heroicons-x-mark-solid"
 							color="red"
-							@click="cartStore.removeItem(item.id)"
+							@click="cartStore.removeItem(item._id)"
 						/>
 					</div>
 				</div>

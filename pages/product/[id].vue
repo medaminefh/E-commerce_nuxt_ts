@@ -66,7 +66,7 @@ const addProductToCart = () => {
 									</div>
 									<div
 										v-for="image in data.images"
-										:key="data.id"
+										:key="data._id"
 										@click="handleChangedImage(image)"
 										class="cursor-pointer mb-3 flex-shrink-0 w-20 h-20 overflow-hidden rounded-lg text-center"
 										:class="
@@ -87,11 +87,17 @@ const addProductToCart = () => {
 					<h1 class="md: text-2xl font-bold text-gray-900 md:text-3xl">
 						{{ data?.title }}
 					</h1>
-					<p class="mt-4 text-2xl font-bold text-gray-900">{{ data.price }}</p>
+					<p class="mt-4 text-2xl font-bold text-gray-900">
+						{{
+							formatCurrency(
+								data.discount ? data.priceAfterDiscount : data.price
+							)
+						}}
+					</p>
 					<span
 						v-if="data.discount"
 						class="text-sm line-through text-gray-700 ml-1"
-						>{{ data?.price }}</span
+						>{{ formatCurrency(data?.price) }}</span
 					>
 					<p class="mt-4 text-gray-600">
 						{{ data?.description }}

@@ -10,9 +10,7 @@
 			/>
 			<h1 class="text-5xl font-bold text-gray-900">404</h1>
 			<p class="text-2xl font-bold text-gray-900">Not found</p>
-			<UButton to="/" color="blue" size="xl" class="mt-4">{{
-				$t("back")
-			}}</UButton>
+			<UButton to="/" color="blue" size="xl" class="mt-4"> back</UButton>
 		</div>
 	</div>
 </template>
