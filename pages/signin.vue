@@ -60,19 +60,39 @@ const validateSignIn = (state: typeof signInState): FormError[] => {
 };
 
 const submit = async (e: FormSubmitEvent<any>) => {
+	const toast = useToast();
 	try {
 		if (isSignUpForm.value) {
-			const data = await $fetch("/api/signup", {
+			const data = await $fetch("/api/register", {
 				method: "POST",
 				body: JSON.stringify(signUpState),
+			});
+			isSignUpForm.value = false;
+			signInState.email = data.email;
+			toast.add({
+				title: "Success",
+				description: "Your account has been created successfully",
+				timeout: 1200,
 			});
 		} else {
 			const data = await $fetch("/api/login", {
 				method: "POST",
-				body: JSON.stringify(signUpState),
+				body: JSON.stringify(signInState),
+			});
+			localStorage.setItem("token", data.token);
+			toast.add({
+				title: "Success",
+				description: "You signed in successfully",
+				timeout: 1200,
 			});
 		}
 	} catch (error) {
+		toast.add({
+			title: "Error",
+			color: "red",
+			description: "Error with the server, please try again later.",
+			timeout: 1200,
+		});
 		console.log(error);
 	}
 };

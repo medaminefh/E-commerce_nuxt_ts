@@ -4,7 +4,7 @@ export default defineEventHandler(async (event) => {
 
 	// Access public variables
 	try {
-		console.log("config.SERVER_URL", config.SERVER_URL);
+		console.log({ body });
 		const result = await $fetch(config.SERVER_URL + "/auth/login", {
 			method: "POST",
 			headers: {
@@ -15,6 +15,7 @@ export default defineEventHandler(async (event) => {
 		});
 		return result;
 	} catch (error) {
-		return new Response("error", { status: 500 });
+		console.log({ error });
+		return new Response("error " + error, { status: 500 });
 	}
 });
