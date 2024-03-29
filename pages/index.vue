@@ -3,6 +3,25 @@ const { data: products } = await useFetch("/api/products");
 </script>
 
 <template>
+	<div class="grid md:grid-cols-2 grid-cols-1">
+		<div
+			class="flex flex-col justify-center gap-y-10 text-gray-900 uppercase font-medium"
+		>
+			<h3 class="text-6xl text-center">
+				<span class="text-pink-600">E-</span>store
+			</h3>
+			<h4 class="text-5xl leading-normal text-center">
+				Make your life Easier with <span class="text-pink-600">US.</span>
+			</h4>
+		</div>
+		<div>
+			<img
+				src="/landing_img1.jpg"
+				alt="landing image"
+				class="w-full object-scale-down"
+			/>
+		</div>
+	</div>
 	<div class="my-10">
 		<h2 class="mb-5 text-center text-3xl md:text-5xl font-medium text-gray-900">
 			Products

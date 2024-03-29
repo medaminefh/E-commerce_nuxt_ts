@@ -80,6 +80,7 @@ const submit = async (e: FormSubmitEvent<any>) => {
 				body: JSON.stringify(signInState),
 			});
 			localStorage.setItem("token", data.token);
+			localStorage.setItem("userRole", data.role);
 			toast.add({
 				title: "Success",
 				description: "You signed in successfully",
@@ -100,8 +101,8 @@ const submit = async (e: FormSubmitEvent<any>) => {
 <template>
 	<!-- sign in form with tailwindcss -->
 	<div class="w-full grid grid-cols-1 lg:grid-cols-2 gap-x-5 gap-y-5">
-		<div class="min-h-[300px] bg-green-300 p-5 rounded-md">
-			<h1 class="text-center text-white text-5xl font-medium">
+		<div class="min-h-[300px] p-5 rounded-md">
+			<h1 class="text-center text-gray-900 text-5xl font-medium">
 				{{ isSignUpForm ? "Sign up" : "Login" }}
 			</h1>
 			<img
@@ -140,7 +141,7 @@ const submit = async (e: FormSubmitEvent<any>) => {
 					<UInput v-model="signInState.password" type="password" />
 				</UFormGroup>
 
-				<UButton type="submit"> Submit </UButton>
+				<UButton type="submit" color="blue"> Submit </UButton>
 			</UForm>
 
 			<UForm
@@ -185,7 +186,7 @@ const submit = async (e: FormSubmitEvent<any>) => {
 				<UFormGroup label="Confirm Password" name="confirmPass" class="w-full">
 					<UInput type="password" v-model="signUpState.confirmPass" />
 				</UFormGroup>
-				<UButton type="submit" :loading="loading">
+				<UButton type="submit" color="blue" :loading="loading">
 					{{ loading ? "loading" + " ..." : "Sign In" }}
 				</UButton>
 			</UForm>
