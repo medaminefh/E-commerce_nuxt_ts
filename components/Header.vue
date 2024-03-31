@@ -1,6 +1,11 @@
 <script setup>
 const open = ref(false);
 const cartStore = storeToRefs(useCartStore());
+const authStore = storeToRefs(useAuthStore());
+
+const isLoggedIn = computed(() => authStore.token.value);
+
+console.log(isLoggedIn.value);
 
 const itemsCount = computed(() => cartStore.itemCount.value);
 </script>
@@ -69,9 +74,11 @@ const itemsCount = computed(() => cartStore.itemCount.value);
 				variant="ghost"
 				class="text-gray-800 p-0"
 				size="xl"
+				v-if="!isLoggedIn"
 				icon="i-heroicons-user-circle"
 				to="/signin"
 			/>
+			<UAvatar v-else src="/avatar1.jpg" size="xs" alt="avatar"/>
 
 			<!-- Contact btn -->
 			<UButton
@@ -113,11 +120,17 @@ const itemsCount = computed(() => cartStore.itemCount.value);
 				>Contact</a
 			>
 			<NuxtLink
+			v-if="!isLoggedIn"
 				to="/signin"
 				class="px-3 font-light text-gray-700 text-base underline"
 			>
 				Signup/Login
 			</NuxtLink>
+			<UAvatar v-else-if="role=='user'" src="/avatar1.jpg" size="xs" alt="avatar"/>
+			<NuxtLink v-else to="/admin/productsDash">
+				<UAvatar src="/avatar1.jpg" size="xs" alt="avatar"/>
+			</NuxtLink>
+		
 		</div>
 	</div>
 </template>

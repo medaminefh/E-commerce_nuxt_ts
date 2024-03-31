@@ -1,7 +1,12 @@
 <script setup lang="ts">
 import type { FormError, FormSubmitEvent } from "#ui/types";
 
+definePageMeta({
+	middleware: ["is-authenticated"],
+});
 const isSignUpForm = ref(true);
+
+const authStore = useAuthStore()
 
 const loading = ref(false);
 
@@ -60,6 +65,7 @@ const validateSignIn = (state: typeof signInState): FormError[] => {
 };
 
 const submit = async (e: FormSubmitEvent<any>) => {
+	const router = useRouter();
 	const toast = useToast();
 	try {
 		if (isSignUpForm.value) {
@@ -79,8 +85,9 @@ const submit = async (e: FormSubmitEvent<any>) => {
 				method: "POST",
 				body: JSON.stringify(signInState),
 			});
-			localStorage.setItem("token", data.token);
-			localStorage.setItem("userRole", data.role);
+			authStore.setUser(data.token,data.role )
+			// push the user to the dashboard
+			router.push("/admin/productsDash");
 			toast.add({
 				title: "Success",
 				description: "You signed in successfully",

@@ -40,7 +40,6 @@
 				<Footer />
 			</template>
 		</UCard>
-		<UNotifications />
 	</Html>
 </template>
 <script setup>
@@ -75,12 +74,4 @@ const items = ref([
 
 const selectedItem = ref("Dashboard");
 
-const path = window?.location?.pathname;
-console.log($route);
-watchEffect(() => {
-	const item = items.value.find((item) => item.link === path);
-	if (item) {
-		selectedItem.value = item.title;
-	}
-});
 </script>

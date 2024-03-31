@@ -4,6 +4,7 @@ useHead({
 });
 definePageMeta({
 	layout: "admin-layout",
+	middleware: ["is-admin"],
 });
 const sort = ref({
 	column: "name",
@@ -33,6 +34,9 @@ const columns = [
 		key: "discount",
 		label: "Discount",
 		sortable: true,
+	},	{
+		key: "published",
+		label: "Published",
 	},
 	{
 		key: "role",
@@ -43,13 +47,27 @@ const selectedColumns = ref([...columns]);
 </script>
 
 <template>
-	<div class="flex px-3 py-3.5 border-b border-gray-200 dark:border-gray-700">
+	<div class="flex px-3 gap-x-4 py-3.5 border-b border-gray-200 dark:border-gray-700">
 		<USelectMenu
 			v-model="selectedColumns"
 			:options="columns"
 			multiple
 			placeholder="Columns"
 		/>
+		<div class="flex gap-x-4" v-if="selectedRows.length">
+			<UButton
+				icon="i-heroicons-trash"
+				color="red"
+				rounded
+				:disabled="selectedRows.length === 0"
+			/>
+			<UButton
+				icon="i-heroicons-plus"
+				color="primary"
+				rounded
+				@click="() => $router.push('/admin/products/new')"
+			/>
+		</div>
 	</div>
 	<UTable
 		v-model="selectedRows"
@@ -75,8 +93,15 @@ const selectedColumns = ref([...columns]);
 				{{ row.title }}
 			</div>
 		</template>
+		
+		<template #discount-data="{ row }">
+				{{ row.discountValue }}
+		</template>
+		<template #published-data="{row}">
+			<UButton icon="i-heroicons-check-badge-16-solid" size="xl" variant="ghost" disabled/>
+		</template>
 		<template #role-data="{ row }">
-			<UButton icon="i-heroicons-trash" color="red" rounded />
+				<UButton color="white" rounded label="update"/>
 		</template>
 	</UTable>
 </template>
