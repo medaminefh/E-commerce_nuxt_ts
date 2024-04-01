@@ -31,10 +31,6 @@ const columns = [
 		sortable: true,
 	},
 	{
-		key: "discount",
-		label: "Discount",
-		sortable: true,
-	},	{
 		key: "published",
 		label: "Published",
 	},
@@ -47,28 +43,31 @@ const selectedColumns = ref([...columns]);
 </script>
 
 <template>
-	<div class="flex px-3 gap-x-4 py-3.5 border-b border-gray-200 dark:border-gray-700">
-		<USelectMenu
+	
+	<div class="flex justify-between gap-x-4 py-3.5 border-b border-gray-200">
+		<div class="flex gap-x-4">
+			<USelectMenu
 			v-model="selectedColumns"
 			:options="columns"
 			multiple
 			placeholder="Columns"
 		/>
-		<div class="flex gap-x-4" v-if="selectedRows.length">
 			<UButton
-				icon="i-heroicons-trash"
-				color="red"
-				rounded
-				:disabled="selectedRows.length === 0"
-			/>
-			<UButton
-				icon="i-heroicons-plus"
-				color="primary"
-				rounded
-				@click="() => $router.push('/admin/products/new')"
+			v-if="selectedRows.length"
+			icon="i-heroicons-trash"
+			color="red"
+			rounded
+			:disabled="selectedRows.length === 0"
 			/>
 		</div>
-	</div>
+		<UButton
+		icon="i-heroicons-plus"
+		color="primary"
+		class="flex-end"
+		rounded
+		@click="() => $router.push('/admin/products/new')"
+		/>
+</div>
 	<UTable
 		v-model="selectedRows"
 		v-model.sort="sort"

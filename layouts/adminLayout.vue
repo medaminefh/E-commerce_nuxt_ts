@@ -53,7 +53,7 @@ const items = ref([
 	{
 		title: "Dashboard",
 		icon: "i-heroicons-home",
-		link: "/admin/productsDash",
+		link: "/admin/dashboard",
 	},
 	{
 		title: "Orders",
