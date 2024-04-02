@@ -40,6 +40,8 @@ const columns = [
 ];
 
 const selectedColumns = ref([...columns]);
+
+
 </script>
 
 <template>
@@ -48,8 +50,8 @@ const selectedColumns = ref([...columns]);
 		<div class="flex gap-x-4">
 			<USelectMenu
 			v-model="selectedColumns"
-			:options="columns"
-			multiple
+			:options="columns.filter(col => col.key !== 'role')"
+			multiple	
 			placeholder="Columns"
 		/>
 			<UButton
@@ -100,7 +102,7 @@ const selectedColumns = ref([...columns]);
 			<UButton icon="i-heroicons-check-badge-16-solid" size="xl" variant="ghost" disabled/>
 		</template>
 		<template #role-data="{ row }">
-				<UButton color="white" rounded label="update"/>
+				<UButton color="white" rounded label="update" @click="() => $router.push(`/admin/products/${row._id}`)"/>
 		</template>
 	</UTable>
 </template>

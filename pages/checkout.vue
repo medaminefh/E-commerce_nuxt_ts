@@ -93,7 +93,14 @@ const submit = async (e: FormSubmitEvent<any>) => {
 		});
 };
 
-const subTotal = computed(() => cartStore.subTotal);
+const subTotal = computed(() => {
+	return items.value.reduce((acc, item) => {
+		if (item.discount) {
+			return round(acc + item.priceAfterDiscount * item.quantity);
+		}
+		return round(acc + item.price * item.quantity);
+	}, 0);
+});
 
 useHead({
 	title: "Checkout",
@@ -208,7 +215,7 @@ watch(
 			</h3>
 			<p class="text-md text-gray-700 text-center">delivery: 8</p>
 			<h1 class="text-xl font-bold text-center text-gray-900 my-5">
-				total: {{ subTotal + 8 }}
+				total: {{ round(subTotal + 8) }}
 			</h1>
 			<UForm
 				:state="userState"

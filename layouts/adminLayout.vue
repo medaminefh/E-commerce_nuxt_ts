@@ -36,9 +36,7 @@
 			<div class="p-4 sm:ml-64">
 				<NuxtPage :page-key="(route) => route.fullPath" />
 			</div>
-			<template #footer>
-				<Footer />
-			</template>
+
 		</UCard>
 	</Html>
 </template>
