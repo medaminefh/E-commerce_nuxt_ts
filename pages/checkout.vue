@@ -13,8 +13,24 @@ const goBack = () => {
 	router.back();
 };
 const cartStore = useCartStore();
+const authStore = useAuthStore();
+
+onMounted(async() => {
+	if(authStore.token && authStore.user) {
+		userState.fullName = authStore.user?.fullName;
+		userState.email = authStore.user?.email;
+		userState.phone = authStore.user?.phone;
+		userState.address = authStore.user?.address;
+		userState.city = authStore.user?.city;
+		userState.zipCode = authStore.user?.zipCode;
+	}
+	if (authStore.token && !authStore.user) {
+		await authStore.getUserDetails();
+	}
+});
 
 const items = computed(() => cartStore.items);
+
 
 const userState = reactive({
 	fullName: "",
@@ -144,11 +160,13 @@ watch(
 				<div
 					class="flex flex-col flex-wrap gap-x-3 gap-y-3 items-center md:items-start"
 				>
+				<div class="max-w-28 h-28 overflow-hidden">
 					<img
-						:src="item.image"
-						:alt="item.title"
-						className="object-scale-down md:h-32 max-w-28 h-28 rounded-lg"
+					:src="item.image"
+					:alt="item.title"
+					className="object-scale-down rounded-lg"
 					/>
+				</div>
 					<div>
 						<h2 class="text-lg font-bold text-gray-900">{{ item?.title }}</h2>
 						<span class="text-xs block text-gray-900 font-bold">
@@ -221,6 +239,7 @@ watch(
 				:state="userState"
 				:validate="validate"
 				@submit="submit"
+				v-if="authStore.token"
 				class="flex flex-col items-center w-full gap-y-3"
 			>
 				<UFormGroup
@@ -274,6 +293,15 @@ watch(
 					{{ loading ? "loading" + " ..." : "order" }}
 				</UButton>
 			</UForm>
+			<div v-else>
+				<p class="text-center text-gray-900">
+					Please login to place an order
+					<NuxtLink to="/signin" class="text-blue-500 underline">
+						Login
+					</NuxtLink>
+				</p>
+
+			</div>
 		</div>
 	</section>
 </template>
