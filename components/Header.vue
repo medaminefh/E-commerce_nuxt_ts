@@ -126,7 +126,7 @@ const itemsCount = computed(() => cartStore.itemCount.value);
 			>
 				Signup/Login
 			</NuxtLink>
-			<UAvatar v-else-if="role=='user'" src="/avatar1.jpg" size="xs" alt="avatar"/>
+			<UAvatar v-else-if="authStore.user?.role=='user'" src="/avatar1.jpg" size="xs" alt="avatar"/>
 			<NuxtLink v-else to="/admin/productsDash">
 				<UAvatar src="/avatar1.jpg" size="xs" alt="avatar"/>
 			</NuxtLink>

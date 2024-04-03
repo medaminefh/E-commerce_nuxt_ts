@@ -4,10 +4,10 @@ export default defineEventHandler(async (event) => {
 
 	// Access public variables
 	try {
-		console.log("config.SERVER_URL", config.SERVER_URL);
 		const result = await $fetch(config.SERVER_URL + "/checkout", {
 			method: "POST",
 			headers: {
+				"Authorization": body.token,
 				"Content-Type": "application/json",
 				"Access-Control-Allow-Origin": "no-cors",
 			},

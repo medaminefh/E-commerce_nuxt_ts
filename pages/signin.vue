@@ -85,7 +85,7 @@ const submit = async (e: FormSubmitEvent<any>) => {
 				method: "POST",
 				body: JSON.stringify(signInState),
 			});
-			authStore.setUser(data.token,data.role )
+			authStore.setUser(data.token,data.user )
 			// push the user to the dashboard
 			router.push("/admin/dashboard");
 			toast.add({

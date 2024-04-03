@@ -4,30 +4,15 @@ import { defineStore } from "pinia";
 export const useAuthStore = defineStore("authStore", {
 	state: () => ({
 		// the items in the cart
-        role: null as "admin" | "user" | null,
+        user: null as any | null,
 		token: null as string | null,
-		user: null as any,
 	}),
 	actions: {
 		// add an item to the cart
-        setUser(token: string, user: "admin" | "user") {
+        setUser(token: string, user: any) {
             this.token = token;
-            this.role = user;
+            this.user = user;
         },
-		getUserDetails() {
-			fetch("http://localhost:5555/users/current", {
-				method: "GET",
-				headers: {
-					"Content-Type": "application/json",
-					Authorization: this.token,
-				},
-			})
-				.then((res) => res.json())
-				.then((data) => {
-					this.user = data;
-				})
-				.catch((err) => console.log(err));
-		}
 	},
 	persist: true,
 });

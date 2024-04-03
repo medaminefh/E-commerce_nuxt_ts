@@ -13,25 +13,8 @@ const goBack = () => {
 	router.back();
 };
 const cartStore = useCartStore();
-const authStore = useAuthStore();
-
-onMounted(async() => {
-	if(authStore.token && authStore.user) {
-		userState.fullName = authStore.user?.fullName;
-		userState.email = authStore.user?.email;
-		userState.phone = authStore.user?.phone;
-		userState.address = authStore.user?.address;
-		userState.city = authStore.user?.city;
-		userState.zipCode = authStore.user?.zipCode;
-	}
-	if (authStore.token && !authStore.user) {
-		await authStore.getUserDetails();
-	}
-});
-
-const items = computed(() => cartStore.items);
-
-
+const authStore = storeToRefs(useAuthStore());
+console.log({authStore: authStore.user.value._id})
 const userState = reactive({
 	fullName: "",
 	email: "",
@@ -41,6 +24,19 @@ const userState = reactive({
 	phone: "",
 	country: "Tunisia",
 });
+
+onMounted(async() => {
+	if(authStore.token && authStore.user.value._id) {
+		userState.fullName = authStore.user?.value.fullName;
+		userState.email = authStore.user?.value.email;
+		userState.phone = authStore.user?.value.phone;
+		userState.address = authStore.user?.value.address;
+		userState.city = authStore.user?.value.city;
+		userState.zipCode = authStore.user?.value.zipCode;
+	}
+});
+
+const items = computed(() => cartStore.items);
 
 const validate = (state: typeof userState): FormError[] => {
 	const errors = [];
@@ -73,18 +69,19 @@ const submit = async (e: FormSubmitEvent<any>) => {
 	// refactored products
 	const products = items.value.map((item) => {
 		return {
-			id: item.id,
+			id: item._id,
 			quantity: item.quantity,
 			details: item.details,
 		};
 	});
-	$fetch("/api/product", {
+	$fetch("/api/checkout", {
 		method: "POST",
 		body: JSON.stringify({
-			...userState,
+			client: authStore.user?.value._id,
 			products,
 			subTotal: subTotal.value,
-			total: total.value,
+			total: subTotal.value + 8,
+			token: authStore.token.value,
 		}),
 	})
 		.then((data) => {
