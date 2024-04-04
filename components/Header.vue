@@ -2,7 +2,7 @@
 const open = ref(false);
 const cartStore = storeToRefs(useCartStore());
 const authStore = storeToRefs(useAuthStore());
-
+const {user} = authStore;
 const isLoggedIn = computed(() => authStore.token.value);
 
 const itemsCount = computed(() => cartStore.itemCount.value);
@@ -51,7 +51,7 @@ const itemsCount = computed(() => cartStore.itemCount.value);
 				class="cursor-pointer"
 				:show="itemsCount > 0"
 				:text="itemsCount"
-				v-if="authStore.user?.role=='user'"
+				v-if="user?.role=='user'"
 				inset
 				title="cart"
 				color="red"
@@ -77,7 +77,7 @@ const itemsCount = computed(() => cartStore.itemCount.value);
 				icon="i-heroicons-user-circle"
 				to="/signin"
 			/>
-			<UAvatar v-else-if="authStore.user?.role=='user'" src="/avatar1.jpg" size="xs" alt="avatar"/>
+			<UAvatar v-else-if="user?.role=='user'" src="/avatar1.jpg" size="xs" alt="avatar"/>
 			<NuxtLink v-else to="/admin">
 				<UAvatar src="/avatar1.jpg" size="xs" alt="avatar"/>
 			</NuxtLink>
@@ -128,7 +128,7 @@ const itemsCount = computed(() => cartStore.itemCount.value);
 			>
 				Signup/Login
 			</NuxtLink>
-			<UAvatar v-else-if="authStore.user?.role=='user'" src="/avatar1.jpg" size="xs" alt="avatar"/>
+			<UAvatar v-else-if="user?.role=='user'" src="/avatar1.jpg" size="xs" alt="avatar"/>
 			<NuxtLink v-else to="/admin/productsDash">
 				<UAvatar src="/avatar1.jpg" size="xs" alt="avatar"/>
 			</NuxtLink>

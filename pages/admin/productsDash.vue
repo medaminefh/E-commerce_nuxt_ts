@@ -3,12 +3,20 @@ useHead({
 	title: "Products Dashboard",
 });
 
+const {token} = storeToRefs(useAuthStore());
+
 const sort = ref({
 	column: "name",
 	direction: "desc",
 });
 const { data: products } = await useLazyFetch(
-	`/api/products?orderBy=${sort.value.column}&order=${sort.value.direction}`
+	`/api/products/adminProducts?orderBy=${sort.value.column}&order=${sort.value.direction}`,
+	{
+		method: "GET",
+		headers: {
+			Authorization: token.value,
+		},
+	}
 );
 
 const selectedRows = ref([]);
@@ -96,7 +104,10 @@ const selectedColumns = ref([...columns]);
 				{{ row.discountValue }}
 		</template>
 		<template #published-data="{row}">
-			<UButton icon="i-heroicons-check-badge-16-solid" size="xl" variant="ghost" disabled/>
+			<UButton v-if="row.published" icon="i-heroicons-check-badge-16-solid" size="xl" variant="ghost" disabled/>
+			
+				<UButton v-else icon="i-heroicons-x-circle-16-solid" size="xl" variant="ghost" color="red" disabled/>
+
 		</template>
 		<template #role-data="{ row }">
 				<UButton color="white" rounded label="update" @click="() => $router.push(`/admin/products/${row._id}`)"/>

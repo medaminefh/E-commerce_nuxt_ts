@@ -14,13 +14,13 @@ useHead({
                 Products</UCard> </NuxtLink>
             
             
-            <NuxtLink to="/admin/ordersDash" class="text-3xl text-white hover:scale-105"> <UCard class="bg-blue-300">
-                <UButton icon="i-heroicons-arrow-up-on-square" color="black" variant="ghost" />
-                Orders</UCard> </NuxtLink>
+            <div class="text-3xl text-white cursor-not-allowed" title="In progress"> <UCard class="bg-blue-300 opacity-75">
+                <UButton disabled icon="i-heroicons-arrow-up-on-square" color="black" variant="ghost" />
+                Orders</UCard> </div>
             
-            <NuxtLink to="/admin/usersDash" class="text-3xl text-white hover:scale-105"> <UCard class="bg-yellow-300">
-                <UButton icon="i-heroicons-user-group" color="black" variant="ghost"/>
+            <div class="text-3xl text-white cursor-not-allowed" title="In progress"> <UCard class="bg-yellow-300 opacity-75">
+                <UButton disabled icon="i-heroicons-user-group" color="black" variant="ghost"/>
                 Clients
-            </UCard> </NuxtLink>
+            </UCard> </div>
     </div>
 </template>

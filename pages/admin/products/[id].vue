@@ -1,5 +1,6 @@
 <script setup>
 
+const {token} = storeToRefs(useAuthStore());
 const route = useRoute();
 const router = useRouter();
 const goBack = () => {
@@ -14,6 +15,7 @@ const state = reactive({
     price: data.value.price,
     discount: data.value.discount,
     priceAfterDiscount: data.value.priceAfterDiscount,
+    published: data.value.published,
     img: null,
     base64: data.value.image
 });
@@ -31,6 +33,47 @@ const onSelectFile = (event) => {
   }
 }
 
+// submit the form
+const onSubmit = async () => {
+    const toast = useToast();
+    const data = {
+        title: state.title,
+        description: state.description,
+        price: state.price,
+        discount: state.discount,
+        priceAfterDiscount: state.priceAfterDiscount,
+        token: token.value,
+        published: state.published
+    }
+
+    // send the data to the server
+    try {
+        const {data:response} = await useLazyFetch(`/api/products/${id}`, {
+            method: "PUT",
+            body: JSON.stringify(data)
+        });
+        toast.add({
+            title: "Success",
+            description: "Product has been updated",
+        });
+        
+    } catch (error) {
+        toast.add({
+            title: "Error",
+            description: "Something went wrong! Please try again later.",
+            color: "red",
+        });
+    }
+
+
+
+    // if the response is successful
+/*     if (response.ok) {
+        // go back to the previous page
+        router.back();
+    } */
+}
+
 
 
 </script>
@@ -45,9 +88,10 @@ const onSelectFile = (event) => {
     <!-- form to create a new product -->
     <div class="flex flex-col gap-y-4 max-w-screen-sm">
         <h1 class="text-3xl text-gray-800">Update Product</h1>
+        <img class="w-40 h-40 object-scale-down" :src="state.base64"/>
         <UForm
                 :state="state"
-
+                @submit="onSubmit"
 				class="space-y-4"
 			>
 				<UFormGroup label="Title" name="title" class="w-full">
@@ -60,7 +104,7 @@ const onSelectFile = (event) => {
 
                 <div class="flex gap-x-6 flex-wrap items-center">    
                     <UFormGroup label="Price" name="price">
-                        <UInput type="number" v-model="state.price"/>
+                        <UInput type="text" v-model="state.price"/>
                     </UFormGroup>
                     
                     <UFormGroup label="Discount" name="discount">
@@ -68,14 +112,16 @@ const onSelectFile = (event) => {
                     </UFormGroup>
 
                     <UFormGroup v-if="state.discount" label="Price After Discount" name="priceAfterDiscount">
-                        <UInput type="number" v-model="state.priceAfterDiscount"/>
+                        <UInput type="text" v-model="state.priceAfterDiscount"/>
                     </UFormGroup>
                 </div>
+                <UFormGroup label="Published" name="published">
+                        <UToggle size="xl" v-model="state.published"/>
+                    </UFormGroup>
 
 				<UFormGroup label="Default Image" name="img" class="w-full">
 					<UInput type="file" v-model="state.img" @input="onSelectFile" />
 				</UFormGroup>
-                <img class="w-40 h-40 object-scale-down" :src="state.base64"/>
 
 				<UButton type="submit" color="blue">
 					Update

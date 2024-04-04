@@ -3,7 +3,7 @@ import type { FormError, FormSubmitEvent } from "#ui/types";
 
 onMounted(async () => {
 	if (authStore.token) {
-		await navigateTo("/admin/dashboard");
+		await navigateTo("/admin");
 	}
 });
 

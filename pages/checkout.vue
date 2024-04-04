@@ -72,17 +72,22 @@ const submit = async (e: FormSubmitEvent<any>) => {
 			details: item.details,
 		};
 	});
-	$fetch("/api/checkout", {
+	try {
+		const { data } = useLazyFetch("/api/checkout", {
 		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+			"Authorization": authStore.token.value,
+		},
 		body: JSON.stringify({
 			client: authStore.user?.value._id,
 			products,
 			subTotal: subTotal.value,
 			total: subTotal.value + 8,
 			token: authStore.token.value,
-		}),
-	})
-		.then((data) => {
+		})})
+
+		if(data) {
 			loading.value = false;
 			toast.add({
 				title: "Success",
@@ -91,16 +96,17 @@ const submit = async (e: FormSubmitEvent<any>) => {
 			setTimeout(() => {
 				cartStore.reset();
 			}, 3000);
-		})
-		.catch((err) => {
-			loading.value = false;
-			console.log(err);
-			toast.add({
-				title: "Error",
-				description: "Something went wrong! Please try again later.",
-				color: "red",
-			});
+		}
+	} catch (error) {
+		loading.value = false;
+		console.log(error);
+		toast.add({
+			title: "Error",
+			description: "Something went wrong! Please try again later.",
+			color: "red",
 		});
+		
+	}
 };
 
 const subTotal = computed(() => {

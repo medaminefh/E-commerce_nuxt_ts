@@ -11,6 +11,7 @@ const state = reactive({
     price: 0,
     discount: false,
     priceAfterDiscount: 0,
+    published: false,
     img: null,
     base64: null
 });
@@ -66,6 +67,9 @@ const onSelectFile = (event) => {
                         <UInput type="number" v-model="state.priceAfterDiscount"/>
                     </UFormGroup>
                 </div>
+                <UFormGroup label="Published" name="published">
+                        <UToggle size="xl" v-model="state.published"/>
+                    </UFormGroup>
 
 				<UFormGroup label="Default Image" name="img" class="w-full">
 					<UInput type="file" v-model="state.img" @input="onSelectFile" />
