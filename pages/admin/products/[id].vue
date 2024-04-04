@@ -3,11 +3,11 @@
 const route = useRoute();
 const router = useRouter();
 const goBack = () => {
+    // go back to the previous page
 	router.back();
 };
 const id = route.params.id;
 const { data } = await useFetch("/api/products/" + id);
-console.log({data:data.value})
 const state = reactive({
     title: data.value.title,
     description: data.value.description,

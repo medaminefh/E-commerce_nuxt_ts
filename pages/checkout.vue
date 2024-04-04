@@ -14,7 +14,6 @@ const goBack = () => {
 };
 const cartStore = useCartStore();
 const authStore = storeToRefs(useAuthStore());
-console.log({authStore: authStore.user.value._id})
 const userState = reactive({
 	fullName: "",
 	email: "",
@@ -62,7 +61,6 @@ const validate = (state: typeof userState): FormError[] => {
 const loading = ref(false);
 const submit = async (e: FormSubmitEvent<any>) => {
 	loading.value = true;
-	console.log(e.data, items);
 
 	// validate the form
 	// send the order to the server
@@ -86,7 +84,6 @@ const submit = async (e: FormSubmitEvent<any>) => {
 	})
 		.then((data) => {
 			loading.value = false;
-			console.log(data);
 			toast.add({
 				title: "Success",
 				description: "Order has been placed",

@@ -11,7 +11,6 @@ const toast = useToast();
 const cartStore = useCartStore();
 
 const addProductToCart = () => {
-	console.log("addProductToCart", props.product);
 	cartStore.addItem(props.product);
 	toast.add({
 		title: "Success",

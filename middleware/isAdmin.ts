@@ -4,7 +4,7 @@ export default defineNuxtRouteMiddleware((to, from) => {
     if(!auth.token)
         return { path: "/signin" }
 
-	if (auth.token && auth.user?.value.role == "user" && to.path === "/admin") {
+	if (auth.token && auth.user?.value.role == "user" && to.path.startsWith("/admin")) {
 		return { path: "/" };
 	}
     if (auth.token && auth.user?.value.role == "admin" && to.path === "/signin") {

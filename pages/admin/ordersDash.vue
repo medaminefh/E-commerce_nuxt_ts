@@ -1,11 +1,10 @@
 <script setup>
 useHead({
-	title: "Users Dashboard",
+	title: "Orders Dashboard",
 });
 
-definePageMeta({
-	layout: "admin-layout",
-	middleware: ["is-admin"],
-});
+const {data} = await useLazyFetch('/api/orders');
+console.log({data})
+
 </script>
 <template>Orders page</template>

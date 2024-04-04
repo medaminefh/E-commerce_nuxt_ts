@@ -2,10 +2,7 @@
 useHead({
 	title: "Products Dashboard",
 });
-definePageMeta({
-	layout: "admin-layout",
-	middleware: ["is-admin"],
-});
+
 const sort = ref({
 	column: "name",
 	direction: "desc",

@@ -4,7 +4,6 @@ export default defineEventHandler(async (event) => {
 
 	// Access public variables
 	try {
-		console.log({ body });
 		const result = await $fetch(config.SERVER_URL + "/auth/login", {
 			method: "POST",
 			headers: {

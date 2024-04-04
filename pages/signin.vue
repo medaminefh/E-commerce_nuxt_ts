@@ -1,9 +1,12 @@
 <script setup lang="ts">
 import type { FormError, FormSubmitEvent } from "#ui/types";
 
-definePageMeta({
-	middleware: ["is-authenticated"],
+onMounted(async () => {
+	if (authStore.token) {
+		await navigateTo("/admin/dashboard");
+	}
 });
+
 const isSignUpForm = ref(true);
 
 const authStore = useAuthStore()
@@ -104,6 +107,7 @@ const submit = async (e: FormSubmitEvent<any>) => {
 		console.log(error);
 	}
 };
+
 </script>
 <template>
 	<!-- sign in form with tailwindcss -->
