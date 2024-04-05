@@ -9,7 +9,7 @@ const itemsCount = computed(() => cartStore.itemCount.value);
 </script>
 
 <template>
-	<div class="flex items-center justify-between">
+	<div class="flex items-center justify-between gap-x-2">
 		<!-- Logo -->
 		<NuxtLink to="/" class="flex items-center gap-x-2">
 			<img
