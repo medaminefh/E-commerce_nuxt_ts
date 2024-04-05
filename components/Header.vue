@@ -68,19 +68,16 @@ const itemsCount = computed(() => cartStore.itemCount.value);
 				/>
 			</UChip>
 
+			<UserDropDown v-if="isLoggedIn" :user="user" />
 			<UButton
+			v-else
 				color="white"
 				variant="ghost"
 				class="text-gray-800 p-0"
 				size="xl"
-				v-if="!isLoggedIn"
 				icon="i-heroicons-user-circle"
 				to="/signin"
 			/>
-			<UAvatar v-else-if="user?.role=='user'" src="/avatar1.jpg" size="xs" alt="avatar"/>
-			<NuxtLink v-else to="/admin">
-				<UAvatar src="/avatar1.jpg" size="xs" alt="avatar"/>
-			</NuxtLink>
 
 			<!-- Contact btn -->
 			<UButton

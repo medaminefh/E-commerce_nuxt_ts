@@ -13,7 +13,7 @@ const goBack = () => {
 	router.back();
 };
 const cartStore = useCartStore();
-const authStore = storeToRefs(useAuthStore());
+const {token, user} = storeToRefs(useAuthStore());
 const userState = reactive({
 	fullName: "",
 	email: "",
@@ -25,38 +25,18 @@ const userState = reactive({
 });
 
 onMounted(async() => {
-	if(authStore.token && authStore.user.value._id) {
-		userState.fullName = authStore.user?.value.fullName;
-		userState.email = authStore.user?.value.email;
-		userState.phone = authStore.user?.value.phone;
-		userState.address = authStore.user?.value.address;
-		userState.city = authStore.user?.value.city;
-		userState.zipCode = authStore.user?.value.zipCode;
+	if(token.value && user.value._id) {
+		userState.fullName = user?.value.fullName;
+		userState.email = user?.value.email;
+		userState.phone = user?.value.phone;
+		userState.address = user?.value.address;
+		userState.city = user?.value.city;
+		userState.zipCode = user?.value.zipCode;
 	}
 });
 
 const items = computed(() => cartStore.items);
 
-const validate = (state: typeof userState): FormError[] => {
-	const errors = [];
-	const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-	const phonePattern = /^[0-9]{8}$/;
-	const zipCodePattern = /^[0-9]{4,5}$/;
-	if (!state.fullName) errors.push({ path: "fullName", message: "Required" });
-	if (!state.email) errors.push({ path: "email", message: "Required" });
-	if (!emailPattern.test(state.email))
-		errors.push({ path: "email", message: "Invalid email" });
-	if (!state.address) errors.push({ path: "address", message: "Required" });
-	if (!state.city) errors.push({ path: "city", message: "Required" });
-	if (!state.zipCode) errors.push({ path: "zipCode", message: "Required" });
-	if (!zipCodePattern.test(state.zipCode))
-		errors.push({ path: "zipCode", message: "Invalid zip code" });
-	if (!state.phone) errors.push({ path: "phoneNumber", message: "Required" });
-	if (!phonePattern.test(state.phone))
-		errors.push({ path: "phoneNumber", message: "Invalid phone number" });
-	if (!state.country) errors.push({ path: "country", message: "Required" });
-	return errors;
-};
 
 const loading = ref(false);
 const submit = async (e: FormSubmitEvent<any>) => {
@@ -77,14 +57,14 @@ const submit = async (e: FormSubmitEvent<any>) => {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
-			"Authorization": authStore.token.value,
+			"Authorization": token.value,
 		},
 		body: JSON.stringify({
-			client: authStore.user?.value._id,
+			client: user?.value._id,
 			products,
 			subTotal: subTotal.value,
 			total: subTotal.value + 8,
-			token: authStore.token.value,
+			token: token.value,
 		})})
 
 		if(data) {
@@ -236,10 +216,8 @@ watch(
 				total: {{ round(subTotal + 8) }}
 			</h1>
 			<UForm
-				:state="userState"
-				:validate="validate"
 				@submit="submit"
-				v-if="authStore.token"
+				v-if="token"
 				class="flex flex-col items-center w-full gap-y-3"
 			>
 				<UFormGroup
@@ -247,11 +225,11 @@ watch(
 					name="fullName"
 					class="w-full md:w-96 max-w-md"
 				>
-					<UInput size="xl" type="text" v-model="userState.fullName" />
+					<UInput disabled size="xl" type="text" v-model="userState.fullName" />
 				</UFormGroup>
 
 				<UFormGroup label="Email" name="email" class="w-full md:w-96 max-w-md">
-					<UInput size="xl" type="email" v-model="userState.email" />
+					<UInput disabled size="xl" type="email" v-model="userState.email" />
 				</UFormGroup>
 
 				<UFormGroup
@@ -263,7 +241,7 @@ watch(
 				</UFormGroup>
 
 				<UFormGroup label="City" name="city" class="w-full md:w-96 max-w-md">
-					<UInput size="xl" type="text" v-model="userState.city" />
+					<UInput disabled size="xl" type="text" v-model="userState.city" />
 				</UFormGroup>
 
 				<UFormGroup
@@ -279,7 +257,7 @@ watch(
 					name="zipCode"
 					class="w-full md:w-96 max-w-md"
 				>
-					<UInput size="xl" type="number" v-model="userState.zipCode" />
+					<UInput disabled size="xl" type="number" v-model="userState.zipCode" />
 				</UFormGroup>
 
 				<UFormGroup
@@ -287,7 +265,7 @@ watch(
 					name="phoneNumber"
 					class="w-full md:w-96 max-w-md"
 				>
-					<UInput size="xl" type="number" v-model="userState.phone" />
+					<UInput disabled size="xl" type="number" v-model="userState.phone" />
 				</UFormGroup>
 				<UButton size="xl" color="blue" type="submit" :loading="loading">
 					{{ loading ? "loading" + " ..." : "order" }}

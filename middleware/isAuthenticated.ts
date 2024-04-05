@@ -1,12 +1,13 @@
 export default defineNuxtRouteMiddleware(async (to, from) => {
-	const auth = storeToRefs(useAuthStore());
-    if(!auth.token) {
+	const {token, user} = storeToRefs(useAuthStore());
+    console.log({token:token.value, to, from})
+    if(!token.value) {
         return { path: "/signin" }
     }
 	// if cart is empty and user is trying to access the checkout page, redirect to the home page
-    if(auth.token && auth.user?.value.role == "admin" && to.path === "/signin")
+    if(token.value && user?.value.role == "admin" && to.path === "/signin")
         return { path: "/admin" }
-    if(auth.token && auth.user?.value.role == "user" && to.path === "/admin/dashboard")
+    if(token.value && user?.value.role == "user" && to.path.startsWith("/admin"))
         return { path: "/" }
 
 });

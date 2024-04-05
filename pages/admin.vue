@@ -49,7 +49,7 @@ useHead({
 });
 
 definePageMeta({
-	middleware: ["is-admin"],
+	middleware: ["is-authenticated", "is-admin"],
 });
 
 const items = ref([

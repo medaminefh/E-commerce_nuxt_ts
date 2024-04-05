@@ -4,11 +4,14 @@ useHead({
 });
 
 const {token} = storeToRefs(useAuthStore());
+const page = ref(1)
+const items = ref(Array(55))
 
 const sort = ref({
 	column: "name",
 	direction: "desc",
 });
+
 const { data: products } = await useLazyFetch(
 	`/api/products/adminProducts?orderBy=${sort.value.column}&order=${sort.value.direction}`,
 	{
@@ -18,6 +21,50 @@ const { data: products } = await useLazyFetch(
 		},
 	}
 );
+
+const onSubmit = async (e) => {
+	e.preventDefault();
+	const ids = selectedRows.value.map((row) => row._id);
+	console.log(ids);
+	const toast = useToast();
+	try {
+		const { data } = await useLazyFetch(
+			`/api/products/unpublish`,
+			{
+				method: "PATCH",
+				headers: {
+					Authorization: token.value,
+				},
+				body: JSON.stringify({ ids }),
+			}
+		);
+		if(data) {
+			products.value = products.value.map((product) => {
+				if (ids.includes(product._id)) {
+					product.published = false;
+				}
+				return product;
+			});
+			selectedRows.value = [];
+
+			toast.add({
+				title: "Success",
+				description: "Products unpublished successfully",
+			timeout: 1200,
+		});
+	}
+		
+	} catch (error) {
+		toast.add({
+			title: "Error",
+			color: "red",
+			description: "Error with the server, please try again later.",
+			timeout: 1200,
+		});
+		console.log(error);
+		
+	}
+};
 
 const selectedRows = ref([]);
 const columns = [
@@ -60,11 +107,11 @@ const selectedColumns = ref([...columns]);
 			placeholder="Columns"
 		/>
 			<UButton
+			@click="onSubmit"
 			v-if="selectedRows.length"
 			icon="i-heroicons-trash"
 			color="red"
 			rounded
-			:disabled="selectedRows.length === 0"
 			/>
 		</div>
 		<UButton
@@ -89,7 +136,7 @@ const selectedColumns = ref([...columns]);
 			ui: { rounded: 'rounded-full' },
 		}"
 		:columns="selectedColumns"
-		:rows="products"
+		:rows="products || []"
 	>
 		<template #_id-data="{ row }">
 			<img :src="row.image" :alt="row.image" class="w-10 h-10" />
@@ -113,4 +160,5 @@ const selectedColumns = ref([...columns]);
 				<UButton color="white" rounded label="update" @click="() => $router.push(`/admin/products/${row._id}`)"/>
 		</template>
 	</UTable>
+	<UPagination v-model="page" :page-count="5" :total="items.length" />
 </template>

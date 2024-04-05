@@ -90,7 +90,7 @@ const submit = async (e: FormSubmitEvent<any>) => {
 			});
 			authStore.setUser(data.token,data.user )
 			// push the user to the dashboard
-			router.push("/admin/dashboard");
+			router.push("/admin");
 			toast.add({
 				title: "Success",
 				description: "You signed in successfully",
