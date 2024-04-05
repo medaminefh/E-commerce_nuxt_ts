@@ -159,7 +159,7 @@ const selectedColumns = ref([...columns]);
 		</template>
 
 		<template #price-data="{ row }">
-				{{ row.discount? row.priceAfterDiscount : row.price}}
+				{{ formatCurrency(row.discount? row.priceAfterDiscount : row.price)}}
 		</template>
 		
 		<template #published-data="{row}">

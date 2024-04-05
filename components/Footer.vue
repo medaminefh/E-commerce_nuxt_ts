@@ -7,7 +7,7 @@
 					<h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase">
 						About-us
 					</h2>
-					<p class="text-gray-500 font-medium">"E-Store: Your one-stop online destination for all your shopping needs. Discover a curated selection of top-quality products, from electronics and gadgets to fashion essentials and home decor. With seamless navigation and secure transactions, we make shopping online easy and enjoyable. Explore our virtual aisles today and elevate your shopping experience with E-Store."</p>
+					<p class="text-gray-500 font-medium">E-Store: Your one-stop online destination for all your shopping needs. Discover a curated selection of top-quality products, from electronics and gadgets to fashion essentials and home decor. With seamless navigation and secure transactions, we make shopping online easy and enjoyable. Explore our virtual aisles today and elevate your shopping experience with E-Store.</p>
 				</div>
 				<div>
 					<h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase">

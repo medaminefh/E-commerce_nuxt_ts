@@ -9,42 +9,17 @@ const itemsCount = computed(() => cartStore.itemCount.value);
 </script>
 
 <template>
-	<div class="flex items-center justify-between flex-row-reverse">
-		<div class="flex gap-x-5 md:hidden">
-			<UChip
-				inset
-				:text="itemsCount"
-				:show="itemsCount > 0"
-				color="red"
-				title="cart"
-				position="bottom-left"
-				size="lg"
-				class="md:hidden"
-			>
-				<UButton
-					to="/checkout"
-					color="white"
-					variant="ghost"
-					class="text-gray-800 p-0"
-					size="xl"
-					icon="i-heroicons-shopping-cart"
-				/>
-			</UChip>
-			<!-- Mobile menu button -->
-			<UButton
-				type="button"
-				color="white"
-				class="inline-flex items-center justify-center p-2 text-gray-400 rounded-md hover:text-gray-500 hover:bg-gray-100 focus:outline-none self-start focus:ring-inset md:hidden"
-				@click="open = !open"
-			>
-				<UIcon
-					name="i-heroicons-bars-3-20-solid"
-					class="w-6 h-6"
-					v-if="!open"
-				/>
-				<UIcon name="i-heroicons-x-mark-solid" class="w-6 h-6" v-if="open" />
-			</UButton>
-		</div>
+	<div class="flex items-center justify-between">
+		<!-- Logo -->
+		<NuxtLink to="/" class="flex items-center gap-x-2">
+			<img
+				src="/logo.png"
+				:width="80"
+				alt="E-store logo"
+			/>
+		</NuxtLink>
+
+		<SearchBtn />
 		<!-- Links -->
 		<div class="md:flex gap-x-4 items-center hidden">
 			<UChip
@@ -89,14 +64,43 @@ const itemsCount = computed(() => cartStore.itemCount.value);
 			>
 		</div>
 
-		<!-- Logo -->
-		<NuxtLink to="/" class="flex items-center gap-x-2">
-			<img
-				src="/logo.png"
-				:width="80"
-				alt="E-store logo"
-			/>
-		</NuxtLink>
+				<!-- Mobile -->
+				<div class="flex gap-x-5 md:hidden">
+			<UChip
+				inset
+				:text="itemsCount"
+				:show="itemsCount > 0"
+				color="red"
+				title="cart"
+				position="bottom-left"
+				size="lg"
+				class="md:hidden"
+			>
+				<UButton
+					to="/checkout"
+					color="white"
+					variant="ghost"
+					class="text-gray-800 p-0"
+					size="xl"
+					icon="i-heroicons-shopping-cart"
+				/>
+			</UChip>
+			<!-- Mobile menu button -->
+			<UButton
+				type="button"
+				color="white"
+				class="inline-flex items-center justify-center p-2 text-gray-400 rounded-md hover:text-gray-500 hover:bg-gray-100 focus:outline-none self-start focus:ring-inset md:hidden"
+				@click="open = !open"
+			>
+				<UIcon
+					name="i-heroicons-bars-3-20-solid"
+					class="w-6 h-6"
+					v-if="!open"
+				/>
+				<UIcon name="i-heroicons-x-mark-solid" class="w-6 h-6" v-if="open" />
+			</UButton>
+		</div>
+
 	</div>
 
 	<div

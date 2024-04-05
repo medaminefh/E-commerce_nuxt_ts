@@ -150,12 +150,12 @@ watch(
 					<div>
 						<h2 class="text-lg font-bold text-gray-900">{{ item?.title }}</h2>
 						<span class="text-xs block text-gray-900 font-bold">
-							{{ item.discount ? item.priceAfterDiscount : item.price }}
+							{{ formatCurrency(item.discount ? item.priceAfterDiscount : item.price) }}
 						</span>
 						<span
 							v-if="item?.discount"
 							class="text-xs text-gray-700 line-through"
-							>{{ item?.price }}</span
+							>{{ formatCurrency(item?.price) }}</span
 						>
 					</div>
 				</div>
@@ -209,11 +209,11 @@ watch(
 		<div class="mx-auto px-4">
 			<UDivider class="my-6" />
 			<h3 class="text-center font-bold text-lg text-gray-900">
-				subtotal: {{ subTotal }}
+				Sub-Total: {{ formatCurrency(subTotal) }}
 			</h3>
-			<p class="text-md text-gray-700 text-center">delivery: 8</p>
+			<p class="text-md text-gray-700 text-center">Delivery: {{formatCurrency(8)}}</p>
 			<h1 class="text-xl font-bold text-center text-gray-900 my-5">
-				total: {{ round(subTotal + 8) }}
+				Total: {{ formatCurrency(subTotal + 8) }}
 			</h1>
 			<UForm
 				@submit="submit"
