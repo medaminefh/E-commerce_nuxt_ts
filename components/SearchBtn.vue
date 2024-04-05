@@ -1,5 +1,11 @@
 <script setup lang="ts">
 const loading = ref(false)
+defineProps({
+  size: {
+    type: String,
+    default: "xl"
+  }
+})
 
 
 const {data:products} = await useLazyFetch<any[]>('/api/products')
@@ -16,7 +22,7 @@ function search (q: string) {
 </script>
 
 <template>
-  <UInputMenu placeholder="Search for products..." :debounce="200" :search="search" v-model="selected" :loading="loading" option-attribute="title" by="_id" size="xl" trailing-icon="i-heroicons-magnifying-glass">
+  <UInputMenu placeholder="Search for products..." :debounce="200" :search="search" v-model="selected" :loading="loading" option-attribute="title" by="_id" :size="size" trailing-icon="i-heroicons-magnifying-glass">
     <template #empty>
       No Products found
     </template>

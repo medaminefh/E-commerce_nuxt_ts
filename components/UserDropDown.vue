@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { getActivePinia } from "pinia"
-
 const props = defineProps({
     user: {
         type:Object,
@@ -10,9 +8,7 @@ const props = defineProps({
 
 const signedOut = async() => {
   const toast = useToast();
-    getActivePinia()!._s.forEach(store => store.$reset());
-
-    await navigateTo('/')
+  useLogout()
     toast.add({
         title: "Success",
         description: "Signed out successfully",

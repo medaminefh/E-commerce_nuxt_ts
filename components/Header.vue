@@ -9,7 +9,7 @@ const itemsCount = computed(() => cartStore.itemCount.value);
 </script>
 
 <template>
-	<div class="flex items-center justify-between gap-x-2">
+	<div class="flex items-center justify-between gap-x-3">
 		<!-- Logo -->
 		<NuxtLink to="/" class="flex items-center gap-x-2">
 			<img
@@ -19,14 +19,13 @@ const itemsCount = computed(() => cartStore.itemCount.value);
 			/>
 		</NuxtLink>
 
-		<SearchBtn />
+		<SearchBtn size="md" />
 		<!-- Links -->
 		<div class="md:flex gap-x-4 items-center hidden">
 			<UChip
 				class="cursor-pointer"
 				:show="itemsCount > 0"
 				:text="itemsCount"
-				v-if="user?.role=='user'"
 				inset
 				title="cart"
 				color="red"
@@ -64,8 +63,8 @@ const itemsCount = computed(() => cartStore.itemCount.value);
 			>
 		</div>
 
-				<!-- Mobile -->
-				<div class="flex gap-x-5 md:hidden">
+		<!-- Mobile -->
+		<div class="flex gap-x-5 md:hidden">
 			<UChip
 				inset
 				:text="itemsCount"
@@ -108,13 +107,8 @@ const itemsCount = computed(() => cartStore.itemCount.value);
 		v-if="open"
 		@click.stop
 	>
-		<div class="flex flex-col">
-			<a
-				href="#contact"
-				title="contact"
-				class="px-3 font-light text-gray-700 text-base underline"
-				>Contact</a
-			>
+	<UDivider />
+		<div class="flex flex-col gap-y-2">
 			<NuxtLink
 			v-if="!isLoggedIn"
 				to="/signin"
@@ -122,10 +116,16 @@ const itemsCount = computed(() => cartStore.itemCount.value);
 			>
 				Signup/Login
 			</NuxtLink>
-			<UAvatar v-else-if="user?.role=='user'" src="/avatar1.jpg" size="xs" alt="avatar"/>
-			<NuxtLink v-else to="/admin/productsDash">
-				<UAvatar src="/avatar1.jpg" size="xs" alt="avatar"/>
+			<span v-else-if="user?.role=='user'" class="px-3 font-light text-gray-700 text-base">
+				You're logged in as {{ user.email }}
+			</span>
+			
+			<NuxtLink v-else class="px-3 font-light text-gray-700 text-base underline">
+				Admin Dashboard
 			</NuxtLink>
+			<span @click="useLogout" v-if="isLoggedIn" class="px-3 font-light text-gray-700 text-base underline">
+				Logout
+			</span>
 		
 		</div>
 	</div>

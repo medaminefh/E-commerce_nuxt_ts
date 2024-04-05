@@ -59,6 +59,13 @@ const columns = [
 
 <template>
 	
+	<UButton
+				@click="useGoBack"
+				color="white"
+				variant="ghost"
+				class="text-lg text-gray-900 underline"
+				>back</UButton
+			>
 	<h1 class="text-4xl mb-10 text-gray-800">Clients dashboard</h1>
 	<UTable
 		sort-asc-icon="i-heroicons-arrow-up-20-solid"

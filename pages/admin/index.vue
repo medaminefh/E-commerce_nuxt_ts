@@ -8,7 +8,7 @@ useHead({
     <h1 class="text-4xl mb-10 text-gray-800">
         Dashboard
     </h1>
-    <div class="flex justify-around flex-wrap" >
+    <div class="flex justify-around flex-wrap gap-4" >
             <NuxtLink to="/admin/productsDash" class="text-3xl text-white hover:scale-105"> <UCard class="bg-red-300">
                 <UButton icon="i-heroicons-shopping-bag" color="black" variant="ghost" />
                 Products</UCard> </NuxtLink>
