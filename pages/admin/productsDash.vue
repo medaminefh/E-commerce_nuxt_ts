@@ -4,16 +4,14 @@ useHead({
 });
 
 const {token} = storeToRefs(useAuthStore());
-const page = ref(1)
-const items = ref(Array(55))
 
-const sort = ref({
-	column: "name",
-	direction: "desc",
+const pagination = ref({
+	page: 1,
+	limit: 10,
 });
 
-const { data: products } = await useLazyFetch(
-	`/api/products/adminProducts?orderBy=${sort.value.column}&order=${sort.value.direction}`,
+const { data: products, pending } = await useFetch(
+	`/api/products/adminProducts`,
 	{
 		method: "GET",
 		headers: {
@@ -74,7 +72,11 @@ const columns = [
 	},
 	{
 		key: "title",
-		label: "title",
+		label: "Title",
+		sortable: true,
+	},	{
+		key: "discount",
+		label: "Discount",
 		sortable: true,
 	},
 	{
@@ -86,6 +88,11 @@ const columns = [
 		key: "published",
 		label: "Published",
 	},
+		{
+		key: "updatedAt",
+		label: "Updated at",
+		sortable: true,
+	},
 	{
 		key: "role",
 	},
@@ -93,11 +100,11 @@ const columns = [
 
 const selectedColumns = ref([...columns]);
 
-
 </script>
 
 <template>
 	
+	<h1 class="text-4xl mb-10 text-gray-800">Products dashboard</h1>
 	<div class="flex justify-between gap-x-4 py-3.5 border-b border-gray-200">
 		<div class="flex gap-x-4">
 			<USelectMenu
@@ -124,7 +131,6 @@ const selectedColumns = ref([...columns]);
 </div>
 	<UTable
 		v-model="selectedRows"
-		v-model.sort="sort"
 		sort-asc-icon="i-heroicons-arrow-up-20-solid"
 		sort-desc-icon="i-heroicons-arrow-down-20-solid"
 		:sort-button="{
@@ -136,7 +142,8 @@ const selectedColumns = ref([...columns]);
 			ui: { rounded: 'rounded-full' },
 		}"
 		:columns="selectedColumns"
-		:rows="products || []"
+		:rows="products"
+		:loading:="pending"
 	>
 		<template #_id-data="{ row }">
 			<img :src="row.image" :alt="row.image" class="w-10 h-10" />
@@ -148,17 +155,26 @@ const selectedColumns = ref([...columns]);
 		</template>
 		
 		<template #discount-data="{ row }">
-				{{ row.discountValue }}
+				<UToggle v-model="row.discount" disabled/>
 		</template>
+
+		<template #price-data="{ row }">
+				{{ row.discount? row.priceAfterDiscount : row.price}}
+		</template>
+		
 		<template #published-data="{row}">
 			<UButton v-if="row.published" icon="i-heroicons-check-badge-16-solid" size="xl" variant="ghost" disabled/>
 			
 				<UButton v-else icon="i-heroicons-x-circle-16-solid" size="xl" variant="ghost" color="red" disabled/>
 
 		</template>
+		
+		<template #updatedAt-data="{row}">
+			{{ new Date(row.updatedAt).toLocaleDateString() }}
+		</template>
 		<template #role-data="{ row }">
 				<UButton color="white" rounded label="update" @click="() => $router.push(`/admin/products/${row._id}`)"/>
 		</template>
 	</UTable>
-	<UPagination v-model="page" :page-count="5" :total="items.length" />
+	<UPagination v-model="pagination.page" :page-count="5" :total="products.length" />
 </template>

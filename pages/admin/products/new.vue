@@ -5,6 +5,8 @@ const goBack = () => {
 	router.back();
 };
 
+const {token} = storeToRefs(useAuthStore());
+
 const state = reactive({
     title: "",
     description: "",
@@ -15,6 +17,44 @@ const state = reactive({
     img: null,
     base64: null
 });
+
+const onSubmit = async () => {
+    const toast = useToast();
+    const data = {
+        title: state.title,
+        description: state.description,
+        price: state.price,
+        discount: state.discount,
+        priceAfterDiscount: state.priceAfterDiscount,
+        token: token.value,
+        published: state.published
+    }
+
+    // send the data to the server
+    try {
+        await useLazyFetch(`/api/products/`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: token.value,
+            },
+            body: JSON.stringify(data)
+        });
+        toast.add({
+            title: "Success",
+            description: "Product has been updated",
+        });
+        goBack();
+        
+    } catch (error) {
+        toast.add({
+            title: "Error",
+            description: "Something went wrong! Please try again later.",
+            color: "red",
+        });
+    }
+}
+
 
 // function to convert the image to base64
 const onSelectFile = (event) => {
@@ -43,7 +83,7 @@ const onSelectFile = (event) => {
         <h1 class="text-3xl text-gray-800">Create New Product</h1>
         <UForm
                 :state="state"
-
+                @submit="onSubmit"
 				class="space-y-4"
 			>
 				<UFormGroup label="Title" name="title" class="w-full">

@@ -64,15 +64,14 @@ const items = ref([
         link: "/admin/productsDash",
     },
 	{
+		title: "Clients",
+		icon: "i-heroicons-user-group",
+		link: "/admin/clientsDash",
+	},
+	{
 		title: "Orders",
 		icon: "i-heroicons-arrow-up-on-square",
 		link: "/admin/ordersDash",
-		disabled:true
-	},
-	{
-		title: "Clients",
-		icon: "i-heroicons-user-group",
-		link: "/admin/usersDash",
 		disabled:true
 	},
 ]);

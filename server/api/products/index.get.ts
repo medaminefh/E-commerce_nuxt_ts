@@ -1,10 +1,9 @@
 export default defineEventHandler(async (event) => {
 	try {
 		const runtimeConfig = useRuntimeConfig(event);
-		const data = await fetch(`${runtimeConfig.SERVER_URL}/products`);
+		const data = await $fetch(`${runtimeConfig.SERVER_URL}/products`);
 		setResponseStatus(event, 200);
-		const products = await data.json();
-		return products;
+		return data;
 	} catch (error) {
 		console.log({ error });
 		return error;

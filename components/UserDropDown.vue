@@ -9,10 +9,14 @@ const props = defineProps({
 })
 
 const signedOut = async() => {
+  const toast = useToast();
     getActivePinia()!._s.forEach(store => store.$reset());
 
     await navigateTo('/')
-    console.log('Signed out')
+    toast.add({
+        title: "Success",
+        description: "Signed out successfully",
+    });
 }
 
 const items = [

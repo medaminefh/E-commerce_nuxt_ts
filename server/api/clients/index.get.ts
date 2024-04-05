@@ -2,8 +2,8 @@ export default defineEventHandler(async (event) => {
 	try {
 		const runtimeConfig = useRuntimeConfig(event);
 		
-		const auth = getHeaders(event)["authorization"]
-		const data = await $fetch(`${runtimeConfig.SERVER_URL}/products/admin`, {
+		const auth = getHeader(event, "Authorization")
+		const data = await $fetch(`${runtimeConfig.SERVER_URL}/users`, {
 			headers: {
 				"Content-Type": "application/json",
 				"Authorization": auth
@@ -11,8 +11,7 @@ export default defineEventHandler(async (event) => {
 		
 		});
 		setResponseStatus(event, 200);
-		const products = data
-		return products;
+		return data;
 	} catch (error) {
 		console.log({ error });
 		return error;

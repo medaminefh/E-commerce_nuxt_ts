@@ -48,7 +48,7 @@ const onSubmit = async () => {
 
     // send the data to the server
     try {
-        const {data:response} = await useLazyFetch(`/api/products/${id}`, {
+        await useLazyFetch(`/api/products/${id}`, {
             method: "PUT",
             body: JSON.stringify(data)
         });
@@ -56,6 +56,7 @@ const onSubmit = async () => {
             title: "Success",
             description: "Product has been updated",
         });
+        goBack();
         
     } catch (error) {
         toast.add({
@@ -64,14 +65,6 @@ const onSubmit = async () => {
             color: "red",
         });
     }
-
-
-
-    // if the response is successful
-/*     if (response.ok) {
-        // go back to the previous page
-        router.back();
-    } */
 }
 
 
