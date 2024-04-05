@@ -46,37 +46,31 @@
 								</NuxtLink>
 							</li>
 							<li class="mb-4">
-								<NuxtLink
-									to="https://www.instagram.com/mercerie_maryouma"
-									target="_blank"
-									no-rel
+								<a
+									href="#"
 									title="instagram"
 									><UIcon
 										name="i-bxl-instagram-alt"
 										class="w-7 h-7 hover:text-red-500 hover:scale-110 transition-all"
-								/></NuxtLink>
+								/></a>
 							</li>
 							<li class="mb-4">
-								<NuxtLink
-									to="https://www.tiktok.com/@mercerie.maryouma"
-									target="_blank"
-									no-rel
+								<a
+									href="#"
 									title="tiktok"
 									><UIcon
 										name="i-bxl-tiktok"
 										class="w-7 h-7 hover:text-black hover:scale-110 transition-all"
-								/></NuxtLink>
+								/></a>
 							</li>
 							<li class="mb-4">
-								<NuxtLink
-									to="https://api.whatsapp.com/send?phone=21622432868"
-									target="_blank"
-									no-rel
+								<a
+									href="#"
 									title="whatsapp"
 									><UIcon
 										name="i-bxl-whatsapp"
 										class="w-7 h-7 hover:text-green-700 hover:scale-110 transition-all"
-								/></NuxtLink>
+								/></a>
 							</li>
 						</ul>
 					</div>

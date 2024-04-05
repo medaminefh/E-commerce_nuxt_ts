@@ -91,17 +91,10 @@ const itemsCount = computed(() => cartStore.itemCount.value);
 
 		<!-- Logo -->
 		<NuxtLink to="/" class="flex items-center gap-x-2">
-			<h1
-				class="bg-gradient-to-r bg-clip-text text-transparent from-[#662D8C] to-[#ED1E79] hidden sm:block ml-2 text-lg font-bold"
-			>
-				E-store
-			</h1>
 			<img
-				src="/logo.jpg"
-				:width="40"
-				:height="40"
-				alt="mercerie zeramdine logo"
-				class="rounded-full"
+				src="/logo.png"
+				:width="80"
+				alt="E-store logo"
 			/>
 		</NuxtLink>
 	</div>
