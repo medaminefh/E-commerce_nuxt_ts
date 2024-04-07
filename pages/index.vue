@@ -40,7 +40,7 @@ const { data: products } = await useFetch("/api/products");
 		</template>
 		<div
 			v-else
-			class="grid grid-cols-1 place-items-center md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-4 mt-10"
+			class="grid grid-cols-2 place-items-center md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-x-2 gap-y-4 md:gap-4 mt-10"
 		>
 			<ProductCard
 				v-for="product in products"

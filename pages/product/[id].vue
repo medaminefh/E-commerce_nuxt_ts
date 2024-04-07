@@ -107,7 +107,7 @@ const addProductToCart = () => {
 					size="lg"
 					@click="addProductToCart"
 					icon="i-heroicons-shopping-cart"
-					class="max-w-xs"
+					class="md:w-40 justify-center h-10"
 					color="blue"
 				>
 					Buy

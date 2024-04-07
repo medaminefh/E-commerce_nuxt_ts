@@ -22,13 +22,13 @@ const addProductToCart = () => {
 
 <template>
 	<div
-		class="relative flex w-60 flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md"
+		class="relative flex md:w-60 w-44 flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md"
 	>
 		<NuxtLink
-			class="relative mx-3 mt-3 flex h-60 md:h-56 overflow-hidden rounded-xl"
+			class="relative mx-3 mt-3 flex h-32 md:h-56 overflow-hidden rounded-xl"
 			:to="'/product/' + product?._id"
 		>
-			<NuxtImg :src="product?.image" :alt="product?.title" />
+			<NuxtImg :src="product?.image" :alt="product?.title" class="object-scale-down place-self-center" />
 
 			<span
 				v-if="product?.discount"
@@ -44,13 +44,13 @@ const addProductToCart = () => {
 		<div class="mt-4 px-5 pb-5">
 			<NuxtLink :to="'/product/' + product?._id">
 				<h5
-					class="text-xl tracking-tight text-slate-900 text-ellipsis line-clamp-1"
+					class="md:text-xl text-lg tracking-tight text-slate-900 text-ellipsis line-clamp-1"
 				>
 					{{ product?.title }}
 				</h5>
 			</NuxtLink>
 			<div class="mt-2 mb-5 flex items-center gap-x-1">
-				<span class="text-xl font-bold text-slate-900">{{
+				<span class="md:text-xl text-lg font-bold text-slate-900">{{
 					formatCurrency(
 						product.discount ? product.priceAfterDiscount : product.price
 					)
@@ -64,7 +64,7 @@ const addProductToCart = () => {
 			<UButton
 				@click="addProductToCart"
 				title="Add to cart"
-				class="flex items-center justify-center flex-wrap rounded-md bg-slate-900 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-blue-300"
+				class="flex items-center justify-center flex-wrap rounded-md bg-slate-900 px-2 md:px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-blue-300"
 				icon="i-heroicons-shopping-cart"
 			>
 				Add to cart</UButton
