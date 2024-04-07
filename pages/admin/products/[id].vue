@@ -1,4 +1,5 @@
-<script setup>
+<script setup lang="ts">
+import type { FormError } from "#ui/types";
 
 const {token} = storeToRefs(useAuthStore());
 const route = useRoute();
@@ -21,6 +22,16 @@ const state = reactive({
     base64: data.value?.image
 });
 
+const validateForm = (Istate: typeof state): FormError[] => {
+	const errors = [];
+	if (!Istate.title) errors.push({ path: "title", message: "Required" });
+	if (!Istate.description) errors.push({ path: "description", message: "Required" });
+
+    if (!Istate.price) errors.push({ path: "price", message: "Required" });
+    if (Istate.discount && !Istate.priceAfterDiscount) errors.push({ path: "priceAfterDiscount", message: "Required" });
+	return errors;
+};
+
 // function to convert the image to base64
 const onSelectFile = (event) => {
   const input = event.target
@@ -36,7 +47,7 @@ const onSelectFile = (event) => {
 
 // submit the form
 const onSubmit = async () => {
-    laoding.value = true;
+    loading.value = true;
     const toast = useToast();
     const data = {
         title: state.title,
@@ -98,6 +109,7 @@ const onSubmit = async () => {
         
                 :state="state"
                 @submit="onSubmit"
+                :validate="validateForm"
 				class="space-y-4"
 			>
 				<UFormGroup label="Title" name="title" class="w-full">
@@ -129,7 +141,7 @@ const onSubmit = async () => {
 					<UInput type="file" v-model="state.img" @input="onSelectFile" />
 				</UFormGroup>
 
-				<UButton type="submit" color="blue">
+				<UButton :loading="loading" type="submit" color="blue">
 					Update
 				</UButton>
 			</UForm>

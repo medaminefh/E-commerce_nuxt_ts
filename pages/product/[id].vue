@@ -48,13 +48,13 @@ const addProductToCart = () => {
 							</div>
 						</div>
 
-						<template v-if="data.images">
+						<template v-if="data.images.length">
 							<div class="mt-2 w-full lg:order-1 lg:w-32 lg:flex-shrink-0">
 								<div
 									class="flex flex-row w-full overflow-x-auto no-scrollbar items-start gap-x-2 lg:flex-col"
 								>
 									<div
-										@click="handleChangedImage(data.defaultImage)"
+										@click="handleChangedImage(data.image)"
 										class="cursor-pointer mb-3 flex-shrink-0 w-20 h-20 overflow-hidden rounded-lg text-center"
 										:class="
 											mainImg === data.image
@@ -64,19 +64,19 @@ const addProductToCart = () => {
 									>
 										<NuxtImg :src="data.image" :alt="data?.title" />
 									</div>
-									<div
+										<div
 										v-for="image in data.images"
 										:key="data._id"
 										@click="handleChangedImage(image)"
 										class="cursor-pointer mb-3 flex-shrink-0 w-20 h-20 overflow-hidden rounded-lg text-center"
 										:class="
 											mainImg === image
-												? 'border-2 border-gray-900'
-												: 'border-2 border-transparent'
-										"
+											? 'border-2 border-gray-900'
+											: 'border-2 border-transparent'
+											"
 									>
-										<NuxtImg :src="image" :alt="data?.title" />
-									</div>
+									<NuxtImg :src="image" :alt="data?.title" />
+								</div>
 								</div>
 							</div>
 						</template>

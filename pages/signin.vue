@@ -68,27 +68,30 @@ const validateSignIn = (state: typeof signInState): FormError[] => {
 };
 
 const submit = async (e: FormSubmitEvent<any>) => {
+	loading.value = true;
 	const router = useRouter();
 	const toast = useToast();
 	try {
 		if (isSignUpForm.value) {
-			const data = await $fetch("/api/register", {
+			const {data, pending} = await useFetch("/api/register", {
 				method: "POST",
 				body: JSON.stringify(signUpState),
 			});
+			loading.value = pending.value;
 			isSignUpForm.value = false;
-			signInState.email = data.email;
+			signInState.email = data.value.email;
 			toast.add({
 				title: "Success",
 				description: "Your account has been created successfully",
 				timeout: 1200,
 			});
 		} else {
-			const data = await $fetch("/api/login", {
+			const {data, pending} = await useFetch("/api/login", {
 				method: "POST",
 				body: JSON.stringify(signInState),
 			});
-			authStore.setUser(data.token,data.user )
+			loading.value = pending.value;
+			authStore.setUser(data.value.token,data.value.user )
 			// push the user to the dashboard
 			router.push("/admin");
 			toast.add({
@@ -123,7 +126,7 @@ const submit = async (e: FormSubmitEvent<any>) => {
 			/>
 		</div>
 		<div>
-			<div class="flex gap-x-2 mb-4">
+			<div class="flex gap-x-2 mb-4 px-4">
 				<UButton
 					:color="!isSignUpForm ? 'black' : 'white'"
 					@click="isSignUpForm = false"
@@ -139,7 +142,7 @@ const submit = async (e: FormSubmitEvent<any>) => {
 			</div>
 			<UForm
 				v-if="!isSignUpForm"
-				class="space-y-4"
+				class="space-y-4 px-4"
 				:state="signInState"
 				:validate="validateSignIn"
 				@submit="submit"
@@ -152,12 +155,12 @@ const submit = async (e: FormSubmitEvent<any>) => {
 					<UInput v-model="signInState.password" type="password" />
 				</UFormGroup>
 
-				<UButton type="submit" color="blue"> Submit </UButton>
+				<UButton :loading="loading" type="submit" color="blue"> Submit </UButton>
 			</UForm>
 
 			<UForm
 				v-else
-				class="space-y-4"
+				class="space-y-4 px-4"
 				:state="signUpState"
 				:validate="validateSignUp"
 				@submit="submit"
@@ -198,7 +201,7 @@ const submit = async (e: FormSubmitEvent<any>) => {
 					<UInput type="password" v-model="signUpState.confirmPass" />
 				</UFormGroup>
 				<UButton type="submit" color="blue" :loading="loading">
-					{{ loading ? "loading" + " ..." : "Sign In" }}
+					Sign In
 				</UButton>
 			</UForm>
 		</div>
