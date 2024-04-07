@@ -14,7 +14,7 @@ const itemsCount = computed(() => cartStore.itemCount.value);
 	<div class="flex items-center justify-between gap-x-3">
 		<!-- Logo -->
 		<NuxtLink to="/" class="flex items-center gap-x-2">
-			<img
+			<NuxtImg
 				src="/logo.png"
 				:width="80"
 				alt="E-store logo"

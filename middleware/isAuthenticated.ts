@@ -1,6 +1,5 @@
 export default defineNuxtRouteMiddleware(async (to, from) => {
 	const {token, user} = storeToRefs(useAuthStore());
-    console.log({token:token.value, to, from})
     if(!token.value) {
         return { path: "/signin" }
     }

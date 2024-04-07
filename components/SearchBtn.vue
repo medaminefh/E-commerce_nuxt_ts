@@ -28,7 +28,7 @@ function search (q: string) {
     </template>
     <template #option="{option:product}">
         <NuxtLink :to="'/product/'+product._id" class="flex items-center">
-            <img :src="product.image" :alt="product.title" class="w-10 h-10" />
+            <NuxtImg :src="product.image" :alt="product.title" class="w-10 h-10" />
             <div class="ms-3">
             <p class="font-medium text-gray-900 dark:text-white">{{ product.title }}</p>
             <!-- if the product has discount -->

@@ -2,7 +2,7 @@
 	<!-- Not found page with tailwindcss -->
 	<div class="flex items-center justify-center h-screen">
 		<div class="text-center">
-			<img
+			<NuxtImg
 				src="/logo.png"
 				class="animate-bounce mx-auto"
 				:width="100"

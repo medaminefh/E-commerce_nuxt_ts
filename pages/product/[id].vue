@@ -40,7 +40,7 @@ const addProductToCart = () => {
 					<div class="lg:flex lg:items-start">
 						<div class="lg:order-2 lg:ml-5">
 							<div class="max-w-sm rounded-lg">
-								<img
+								<NuxtImg
 									:src="mainImg"
 									:alt="data?.title"
 									class="object-scale-down h-56 w-56 md:h-auto"
@@ -62,7 +62,7 @@ const addProductToCart = () => {
 												: 'border-2 border-transparent'
 										"
 									>
-										<img :src="data.image" :alt="data?.title" />
+										<NuxtImg :src="data.image" :alt="data?.title" />
 									</div>
 									<div
 										v-for="image in data.images"
@@ -75,7 +75,7 @@ const addProductToCart = () => {
 												: 'border-2 border-transparent'
 										"
 									>
-										<img :src="image" :alt="data?.title" />
+										<NuxtImg :src="image" :alt="data?.title" />
 									</div>
 								</div>
 							</div>

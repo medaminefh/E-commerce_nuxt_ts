@@ -15,7 +15,7 @@ const { data: products } = await useFetch("/api/products");
 			</h4>
 		</div>
 		<div>
-			<img
+			<NuxtImg
 				src="/landing_img1.jpg"
 				alt="landing image"
 				class="w-full object-scale-down"

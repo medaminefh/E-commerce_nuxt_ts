@@ -3,7 +3,6 @@ export default defineEventHandler(async (event) => {
 		const id = getRouterParam(event, "id");
 		const runtimeConfig = useRuntimeConfig(event);
         const body = await readBody(event);
-        console.log({body})
 		const data = await $fetch(`${runtimeConfig.SERVER_URL}/products/` + id, {
             method: "PUT",
             headers: {

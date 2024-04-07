@@ -116,7 +116,7 @@ const submit = async (e: FormSubmitEvent<any>) => {
 			<h1 class="text-center text-gray-900 text-5xl font-medium">
 				{{ isSignUpForm ? "Sign up" : "Login" }}
 			</h1>
-			<img
+			<NuxtImg
 				class="max-h-[600px] mx-auto"
 				src="/login.svg"
 				alt="Sign in picture"

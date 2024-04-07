@@ -28,7 +28,7 @@ const addProductToCart = () => {
 			class="relative mx-3 mt-3 flex h-60 md:h-56 overflow-hidden rounded-xl"
 			:to="'/product/' + product?._id"
 		>
-			<img :src="product?.image" :alt="product?.title" />
+			<NuxtImg :src="product?.image" :alt="product?.title" />
 
 			<span
 				v-if="product?.discount"

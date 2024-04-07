@@ -23,7 +23,6 @@ const { data: products, pending } = await useFetch(
 const onSubmit = async (e) => {
 	e.preventDefault();
 	const ids = selectedRows.value.map((row) => row._id);
-	console.log(ids);
 	const toast = useToast();
 	try {
 		const { data } = await useLazyFetch(
@@ -153,7 +152,7 @@ const selectedColumns = ref([...columns]);
 		:loading:="pending"
 	>
 		<template #_id-data="{ row }">
-			<img :src="row.image" :alt="row.image" class="w-10 h-10" />
+			<NuxtImg :src="row.image" :alt="row.image" class="w-10 h-10" />
 		</template>
 		<template #title-data="{ row }">
 			<div class="text-ellipsis overflow-hidden max-w-40">

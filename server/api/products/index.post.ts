@@ -3,7 +3,6 @@ export default defineEventHandler(async (event) => {
 		const runtimeConfig = useRuntimeConfig(event);
         const auth = getHeader(event, "Authorization");
         const body = await readBody(event);
-        console.log({body})
 		const data = await $fetch(`${runtimeConfig.SERVER_URL}/products/`, {
             method: "POST",
             headers: {

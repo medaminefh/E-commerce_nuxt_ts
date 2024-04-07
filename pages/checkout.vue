@@ -141,7 +141,7 @@ watch(
 					class="flex flex-col flex-wrap gap-x-3 gap-y-3 items-center md:items-start"
 				>
 				<div class="max-w-28 h-28 overflow-hidden">
-					<img
+					<NuxtImg
 					:src="item.image"
 					:alt="item.title"
 					className="object-scale-down rounded-lg"

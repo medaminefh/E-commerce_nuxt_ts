@@ -4,7 +4,12 @@ export default defineNuxtConfig({
 	runtimeConfig: {
 		SERVER_URL: process.env.SERVER_URL || "http://localhost:5555",
 	},
-	modules: ["@nuxt/ui", "@pinia/nuxt", "@pinia-plugin-persistedstate/nuxt"],
+	modules: [
+        "@nuxt/ui",
+        "@pinia/nuxt",
+        "@pinia-plugin-persistedstate/nuxt",
+        "@nuxt/image"
+    ],
 	colorMode: {
 		preference: "light",
 	},
