@@ -10,6 +10,7 @@
 						<li v-for="item in items" :key="item.title">
 							<NuxtLink
 								v-if="!item.disabled"
+								:title="item.title"
 								:to="item.link"
 								@click="selectedItem = item.link"
 								:class="[
@@ -29,7 +30,7 @@
 								class="flex items-center p-2 rounded-lg group w-full text-gray-400"
 							>
 								<UIcon :name="item.icon" size="xl" />
-								<span class="ms-3">{{ item.title }}</span>
+								<span :title="item.description" class="ms-3">{{ item.title }}</span>
 							</UButton>
 						</li>
 					</ul>
@@ -70,6 +71,7 @@ const items = ref([
 	},
 	{
 		title: "Orders",
+		description: "In progress...",
 		icon: "i-heroicons-arrow-up-on-square",
 		link: "/admin/ordersDash",
 		disabled:true

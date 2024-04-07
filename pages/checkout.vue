@@ -53,7 +53,7 @@ const submit = async (e: FormSubmitEvent<any>) => {
 		};
 	});
 	try {
-		const { data } = useLazyFetch("/api/checkout", {
+		const { data, pending , error} = await useLazyFetch("/api/checkout", {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
@@ -67,8 +67,8 @@ const submit = async (e: FormSubmitEvent<any>) => {
 			token: token.value,
 		})})
 
-		if(data) {
-			loading.value = false;
+		loading.value = pending.value;
+		if(!error) {
 			toast.add({
 				title: "Success",
 				description: "Order has been placed",
@@ -76,6 +76,14 @@ const submit = async (e: FormSubmitEvent<any>) => {
 			setTimeout(() => {
 				cartStore.reset();
 			}, 3000);
+			return
+		}
+		else {
+			toast.add({
+				title: "Error",
+				description: "Something went wrong! Please try again later.",
+				color: "red",
+			});
 		}
 	} catch (error) {
 		loading.value = false;
@@ -218,6 +226,7 @@ watch(
 			<UForm
 				@submit="submit"
 				v-if="token"
+				:state="userState"
 				class="flex flex-col items-center w-full gap-y-3"
 			>
 				<UFormGroup
@@ -268,7 +277,7 @@ watch(
 					<UInput disabled size="xl" type="number" v-model="userState.phone" />
 				</UFormGroup>
 				<UButton size="xl" color="blue" type="submit" :loading="loading">
-					{{ loading ? "loading" + " ..." : "order" }}
+					Place Order
 				</UButton>
 			</UForm>
 			<div v-else>

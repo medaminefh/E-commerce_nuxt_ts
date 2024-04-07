@@ -122,13 +122,15 @@ const selectedColumns = ref([...columns]);
 			<UButton
 			@click="onSubmit"
 			v-if="selectedRows.length"
-			icon="i-heroicons-trash"
+			title="Unpublish"
+			icon="i-heroicons-eye-slash"
 			color="red"
 			rounded
 			/>
 		</div>
 		<UButton
 		icon="i-heroicons-plus"
+		title="Add new product"
 		color="primary"
 		class="flex-end"
 		rounded

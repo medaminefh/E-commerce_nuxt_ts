@@ -112,16 +112,16 @@ const onSubmit = async () => {
                 :validate="validateForm"
 				class="space-y-4"
 			>
-				<UFormGroup label="Title" name="title" class="w-full">
+				<UFormGroup label="Title*" name="title" class="w-full">
 					<UInput type="text" v-model="state.title"  />
 				</UFormGroup>
 
-				<UFormGroup label="Description" name="description" class="w-full">
-					<UInput type="text" v-model="state.description" />
+				<UFormGroup label="Description*" name="description" class="w-full">
+					<UTextarea v-model="state.description" />
 				</UFormGroup>
 
                 <div class="flex gap-x-6 flex-wrap items-center">    
-                    <UFormGroup label="Price" name="price">
+                    <UFormGroup label="Price*" name="price">
                         <UInput type="text" v-model="state.price"/>
                     </UFormGroup>
                     
@@ -129,7 +129,7 @@ const onSubmit = async () => {
                         <UToggle size="xl" v-model="state.discount"/>
                     </UFormGroup>
 
-                    <UFormGroup v-if="state.discount" label="Price After Discount" name="priceAfterDiscount">
+                    <UFormGroup v-if="state.discount" label="Price After Discount*" name="priceAfterDiscount">
                         <UInput type="text" v-model="state.priceAfterDiscount"/>
                     </UFormGroup>
                 </div>
@@ -137,7 +137,7 @@ const onSubmit = async () => {
                         <UToggle size="xl" v-model="state.published"/>
                     </UFormGroup>
 
-				<UFormGroup label="Default Image" name="img" class="w-full">
+				<UFormGroup label="Default Image*" name="img" class="w-full">
 					<UInput type="file" v-model="state.img" @input="onSelectFile" />
 				</UFormGroup>
 
