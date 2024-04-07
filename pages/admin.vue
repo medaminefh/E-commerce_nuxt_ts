@@ -1,13 +1,13 @@
 <template>
 			<aside
-				class="fixed top-[82px] left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
+				class="hidden md:block fixed top-[82px] left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
 				aria-label="Sidebar"
 			>
 				<div
 					class="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800 border-r"
 				>
 					<ul class="space-y-2 mt-4 font-medium">
-						<li v-for="item in items">
+						<li v-for="item in items" :key="item.title">
 							<NuxtLink
 								v-if="!item.disabled"
 								:to="item.link"

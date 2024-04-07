@@ -2,12 +2,12 @@
 	<NuxtLoadingIndicator />
 	<Html>
 		<UCard
-			:ui="{ header: { base: 'sticky top-0 bg-white z-10 border-b py-4' } }"
+			:ui="{ background: '',header: { base: 'sticky bg-white top-0 z-10 border-b py-4' }, footer: { base: 'bg-gray-50' }}"
 		>
 			<template #header>
 				<Header />
 			</template>
-			<slot />
+				<slot />
 			<template #footer>
 				<Footer />
 			</template>
@@ -26,8 +26,8 @@ useHead({
 useSeoMeta({
 	title: "E-store",
 	ogTitle: "E-store",
-	description: "about",
-	ogDescription: "about",
+	description: "E-Store: Your one-stop online destination for all your shopping needs. Make your life easier with us.",
+	ogDescription: "E-Store: Your one-stop online destination for all your shopping needs. Make your life easier with us.",
 });
 </script>
 
