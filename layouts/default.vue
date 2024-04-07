@@ -2,7 +2,7 @@
 	<NuxtLoadingIndicator />
 	<Html>
 		<UCard
-			:ui="{ background: '',header: { base: 'sticky bg-white top-0 z-10 border-b py-4' }, footer: { base: 'bg-gray-50' }}"
+			:ui="{ background: '',header: { base: 'sticky bg-white top-0 z-10 border-b py-4' }, footer: { base: 'bg-gray-50' }, body:{padding:'px-1'}}"
 		>
 			<template #header>
 				<Header />
