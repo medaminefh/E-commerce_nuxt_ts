@@ -72,7 +72,6 @@ const columns = [
 	{
 		key: "title",
 		label: "Title",
-		sortable: true,
 	},	{
 		key: "discount",
 		label: "Discount",
@@ -86,6 +85,7 @@ const columns = [
 	{
 		key: "published",
 		label: "Published",
+		sortable: true,
 	},
 		{
 		key: "updatedAt",
@@ -139,16 +139,6 @@ const selectedColumns = ref([...columns]);
 </div>
 	<UTable
 		v-model="selectedRows"
-		sort-asc-icon="i-heroicons-arrow-up-20-solid"
-		sort-desc-icon="i-heroicons-arrow-down-20-solid"
-		:sort-button="{
-			icon: 'i-heroicons-sparkles-20-solid',
-			color: 'primary',
-			variant: 'outline',
-			size: '2xs',
-			square: false,
-			ui: { rounded: 'rounded-full' },
-		}"
 		:columns="selectedColumns"
 		:rows="products"
 		:loading:="pending"

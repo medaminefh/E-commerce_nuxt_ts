@@ -73,25 +73,25 @@ const submit = async (e: FormSubmitEvent<any>) => {
 	const toast = useToast();
 	try {
 		if (isSignUpForm.value) {
-			const {data, pending} = await useFetch("/api/register", {
+			const data = await $fetch("/api/register", {
 				method: "POST",
 				body: JSON.stringify(signUpState),
 			});
-			loading.value = pending.value;
+			loading.value = false;
 			isSignUpForm.value = false;
-			signInState.email = data.value.email;
+			signInState.email = data.email;
 			toast.add({
 				title: "Success",
 				description: "Your account has been created successfully",
 				timeout: 1200,
 			});
 		} else {
-			const {data, pending} = await useFetch("/api/login", {
+			const data = await $fetch("/api/login", {
 				method: "POST",
 				body: JSON.stringify(signInState),
 			});
-			loading.value = pending.value;
-			authStore.setUser(data.value.token,data.value.user )
+			loading.value = false;
+			authStore.setUser(data.token,data.user )
 			// push the user to the dashboard
 			router.push("/admin");
 			toast.add({

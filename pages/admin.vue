@@ -71,10 +71,8 @@ const items = ref([
 	},
 	{
 		title: "Orders",
-		description: "In progress...",
 		icon: "i-heroicons-arrow-up-on-square",
 		link: "/admin/ordersDash",
-		disabled:true
 	},
 ]);
 

@@ -53,7 +53,7 @@ const submit = async (e: FormSubmitEvent<any>) => {
 		};
 	});
 	try {
-		const { pending , error} = await useLazyFetch("/api/checkout", {
+		const data = await $fetch("/api/checkout", {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
@@ -67,8 +67,9 @@ const submit = async (e: FormSubmitEvent<any>) => {
 			token: token.value,
 		})})
 
-		loading.value = pending.value;
-		if(!error.value) {
+		loading.value = false;
+		console.log({data})
+		if(data) {
 			toast.add({
 				title: "Success",
 				description: "Order has been placed",
@@ -153,7 +154,8 @@ watch(
 					<NuxtImg
 					:src="item.image"
 					:alt="item.title"
-					className="object-scale-down rounded-lg"
+					:width="100"
+					:height="100"
 					/>
 				</div>
 					<div>

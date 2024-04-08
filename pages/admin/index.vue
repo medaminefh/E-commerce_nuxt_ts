@@ -18,9 +18,9 @@ useHead({
                     Clients
                 </UCard> </NuxtLink>
             
-            <div class="text-3xl text-gray-800 cursor-not-allowed" title="In progress"> <UCard class="bg-blue-300 opacity-75">
-                <UButton disabled icon="i-heroicons-arrow-up-on-square" color="black" variant="ghost" />
-                Orders</UCard> </div>
+            <NuxtLink to="/admin/ordersDash" class="text-3xl text-gray-800 hover:scale-105"> <UCard class="bg-blue-300 opacity-75">
+                <UButton icon="i-heroicons-arrow-up-on-square" color="black" variant="ghost" />
+                Orders</UCard> </NuxtLink>
             
     </div>
 </template>

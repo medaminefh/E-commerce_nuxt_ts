@@ -13,6 +13,7 @@
 			</template>
 		</UCard>
 		<UNotifications />
+		<UModals />
 	</Html>
 </template>
 
