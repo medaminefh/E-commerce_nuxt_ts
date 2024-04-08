@@ -53,7 +53,7 @@ const submit = async (e: FormSubmitEvent<any>) => {
 		};
 	});
 	try {
-		const { data, pending , error} = await useLazyFetch("/api/checkout", {
+		const { pending , error} = await useLazyFetch("/api/checkout", {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
@@ -68,14 +68,15 @@ const submit = async (e: FormSubmitEvent<any>) => {
 		})})
 
 		loading.value = pending.value;
-		if(!error) {
+		if(!error.value) {
 			toast.add({
 				title: "Success",
 				description: "Order has been placed",
+				timeout: 1500,
 			});
 			setTimeout(() => {
 				cartStore.reset();
-			}, 3000);
+			}, 1500);
 			return
 		}
 		else {
@@ -198,15 +199,16 @@ watch(
 						v-model="item.details"
 					/>
 					<span>{{
-						calculatePrice(
+						formatCurrency(calculatePrice(
 							item.discount ? item.priceAfterDiscount : item.price,
 							item.quantity
-						)
+						))
 					}}</span>
 
 					<div class="flex items-center justify-between">
 						<UButton
-							icon="i-heroicons-x-mark-solid"
+							icon="i-heroicons-trash"
+							title="Remove"
 							color="red"
 							@click="cartStore.removeItem(item._id)"
 						/>
