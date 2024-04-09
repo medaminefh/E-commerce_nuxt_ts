@@ -61,20 +61,12 @@ const onSubmit = async () => {
 
     // send the data to the server
     try {
-        const { pending, error } = await useLazyFetch(`/api/products/${id}`, {
+        await $fetch(`/api/products/${id}`, {
             method: "PUT",
             body: JSON.stringify(data)
         });
 
-        loading.value = pending.value;
-        if (error.value) {
-            toast.add({
-                title: "Error",
-                description: "Something went wrong! Please try again later.",
-                color: "red",
-            });
-            return;
-        }
+        loading.value = false;
         toast.add({
             title: "Success",
             description: "Product has been updated",
@@ -82,6 +74,7 @@ const onSubmit = async () => {
         goBack();
         
     } catch (error) {
+        loading.value = false;
         toast.add({
             title: "Error",
             description: "Something went wrong! Please try again later.",

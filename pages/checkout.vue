@@ -68,25 +68,16 @@ const submit = async (e: FormSubmitEvent<any>) => {
 		})})
 
 		loading.value = false;
-		console.log({data})
-		if(data) {
-			toast.add({
-				title: "Success",
-				description: "Order has been placed",
-				timeout: 1500,
-			});
-			setTimeout(() => {
-				cartStore.reset();
-			}, 1500);
-			return
-		}
-		else {
-			toast.add({
-				title: "Error",
-				description: "Something went wrong! Please try again later.",
-				color: "red",
-			});
-		}
+		
+		toast.add({
+			title: "Success",
+			description: "Order has been placed",
+			timeout: 1500,
+		});
+		setTimeout(() => {
+			cartStore.reset();
+		}, 1500);
+
 	} catch (error) {
 		loading.value = false;
 		console.log(error);

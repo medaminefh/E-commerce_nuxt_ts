@@ -15,6 +15,9 @@ export default defineEventHandler(async (event) => {
 		setResponseStatus(event, 200);
 		return data;
 	} catch (error) {
-		setResponseStatus(event, 500);
+		throw createError({
+			statusCode: 500,
+			statusMessage: 'Unpublish product failed. Please try again.'
+		  })
 	}
 });

@@ -44,7 +44,7 @@ const onSubmit = async () => {
 
     // send the data to the server
     try {
-        const {data:response, pending, error} = await useFetch(`/api/products/`, {
+        await $fetch(`/api/products/`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -52,15 +52,8 @@ const onSubmit = async () => {
             },
             body: JSON.stringify(data)
         });
-        loading.value = pending.value ;
-        if (error.value) {
-            toast.add({
-                title: "Error",
-                color: "red",
-                description: "Failed to create product!",
-            });
-            return
-        }
+
+        loading.value = false ;
         
         toast.add({
             title: "Success",
@@ -70,6 +63,7 @@ const onSubmit = async () => {
 
         
     } catch (error) {
+        loading.value = false;
         toast.add({
             title: "Error",
             description: "Something went wrong! Please try again later.",

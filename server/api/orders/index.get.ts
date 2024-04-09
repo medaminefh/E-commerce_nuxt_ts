@@ -6,7 +6,9 @@ export default defineEventHandler(async (event) => {
 		setResponseStatus(event, 200);
 		return data;
 	} catch (error) {
-		console.log({ error });
-		return error;
+		throw createError({
+			statusCode: 500,
+			statusMessage: 'Orders not found.'
+		  })
 	}
 });

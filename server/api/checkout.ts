@@ -15,6 +15,9 @@ export default defineEventHandler(async (event) => {
 		});
 		return result;
 	} catch (error) {
-		return new Response("error", { status: 500 });
+		throw createError({
+			statusCode: 500,
+			statusMessage: 'Place order failed. Please try again.'
+		  })
 	}
 });

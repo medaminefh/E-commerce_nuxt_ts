@@ -71,44 +71,57 @@ const submit = async (e: FormSubmitEvent<any>) => {
 	loading.value = true;
 	const router = useRouter();
 	const toast = useToast();
-	try {
 		if (isSignUpForm.value) {
-			const data = await $fetch("/api/register", {
-				method: "POST",
-				body: JSON.stringify(signUpState),
-			});
-			loading.value = false;
-			isSignUpForm.value = false;
-			signInState.email = data.email;
-			toast.add({
-				title: "Success",
-				description: "Your account has been created successfully",
-				timeout: 1200,
-			});
+			try {
+				const data = await $fetch("/api/register", {
+					method: "POST",
+					body: JSON.stringify(signUpState),
+				});
+				loading.value = false;
+				isSignUpForm.value = false;
+				signInState.email = data.email;
+				toast.add({
+					title: "Success",
+					description: "Your account has been created successfully",
+					timeout: 1200,
+				});
+				
+			} catch (error) {
+				loading.value = false;
+				toast.add({
+					title: "Error",
+					color: "red",
+					description: "Error with the server, please try again later.",
+					timeout: 1200,
+				});
+				
+			}
 		} else {
-			const data = await $fetch("/api/login", {
-				method: "POST",
-				body: JSON.stringify(signInState),
-			});
-			loading.value = false;
-			authStore.setUser(data.token,data.user )
-			// push the user to the dashboard
-			router.push("/admin");
-			toast.add({
-				title: "Success",
-				description: "You signed in successfully",
-				timeout: 1200,
-			});
-		}
-	} catch (error) {
-		toast.add({
+			try {
+				const data = await $fetch("/api/login", {
+					method: "POST",
+					body: JSON.stringify(signInState),
+				});
+				loading.value = false;
+				authStore.setUser(data.token,data.user )
+				// push the user to the dashboard
+				router.push("/admin");
+				toast.add({
+					title: "Success",
+					description: "You signed in successfully",
+					timeout: 1200,
+				});
+				
+			} catch (error) {
+				loading.value = false;
+				toast.add({
 			title: "Error",
 			color: "red",
 			description: "Error with the server, please try again later.",
 			timeout: 1200,
 		});
-		console.log(error);
-	}
+			}
+		}
 };
 
 </script>

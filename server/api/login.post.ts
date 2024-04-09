@@ -14,7 +14,9 @@ export default defineEventHandler(async (event) => {
 		});
 		return result;
 	} catch (error) {
-		console.log({ error });
-		return new Response("error " + error, { status: 500 });
+		throw createError({
+			statusCode: 500,
+			statusMessage: 'Credentials are incorrect. Please try again.'
+		  })
 	}
 });

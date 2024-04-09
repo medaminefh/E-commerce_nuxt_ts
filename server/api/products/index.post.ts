@@ -30,7 +30,9 @@ export default defineEventHandler(async (event) => {
 		setResponseStatus(event, 200);
 		return data;
 	} catch (error) {
-        console.error(error);
-		setResponseStatus(event, 500);
+        throw createError({
+			statusCode: 500,
+			statusMessage: 'Create product failed. Please try again.'
+		  })
 	}
 });
