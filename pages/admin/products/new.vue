@@ -38,7 +38,7 @@ const onSubmit = async () => {
         price: state.price,
         discount: state.discount,
         priceAfterDiscount: state.priceAfterDiscount,
-        token: token.value,
+        image: state.base64,
         published: state.published
     }
 
@@ -84,6 +84,7 @@ const onSelectFile = (event) => {
   const input = event.target
   const files = input.files
   if (files && files[0]) {
+    state.img = files[0]
     const reader = new FileReader
     reader.onload = e => {
       state.base64 = e.target.result
@@ -136,9 +137,9 @@ const onSelectFile = (event) => {
                     </UFormGroup>
 
 				<UFormGroup label="Default Image*" name="img" class="w-full">
-					<UInput type="file" v-model="state.img" @input="onSelectFile" />
+					<UInput type="file" @input="onSelectFile" />
 				</UFormGroup>
-                <NuxtImg class="w-40 h-40 object-scale-down" :src="state.base64" v-if="state.img"/>
+                <!-- <NuxtImg class="w-40 h-40 object-scale-down" :src="state.base64" v-if="state.img"/> -->
 
 				<UButton :loading="loading" type="submit" color="blue">
 					Create
