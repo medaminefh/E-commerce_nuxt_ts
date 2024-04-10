@@ -1,5 +1,6 @@
 <script setup>
-import Modal from '~/components/Modal.vue';
+import OrderDetailsModal from '~/components/Modals/OrderDetailsModal.vue';
+import UserDetailsModal from '~/components/Modals/UserDetailsModal.vue';
 
 useHead({
 	title: "Orders Dashboard",
@@ -56,12 +57,24 @@ const columns = [
 ];
 
 const modal = useModal()
-const count = ref(0)
 
 function openModal (order) {
-  count.value += 1
-  modal.open(Modal, {
-    data: order
+  modal.open(OrderDetailsModal, {
+    data: order,
+	onClose: () => {
+        // Do something and then close
+        modal.close();
+      },
+  })
+}
+
+function openUserDetailsModal(user){
+  modal.open(UserDetailsModal, {
+	client: user,
+	onClose: () => {
+		// Do something and then close
+		modal.close();
+	  },
   })
 }
 
@@ -91,7 +104,9 @@ function openModal (order) {
 		</template>
 		
 		<template #client-data="{ row }">
-			{{ row.client.fullName}}
+			<span class="text-ellipsis overflow-hidden text-blue-500 underline cursor-pointer hover:no-underline" @click="openUserDetailsModal(row.client)">
+				{{ row.client.fullName}}
+			</span>
 		</template>
 		
 		<template #address-data="{ row }">

@@ -23,13 +23,20 @@ const columns = [
     }
 ]
 
+defineEmits(['close'])
+
 </script>
 
 <template>
         <UModal>
             <UCard :ui="{ ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
         <template #header>
-          <h1 class="text-xl"> Ref: #{{ data?.orderId }}</h1>
+            <div class="flex items-center justify-between">
+                <h1 class="text-xl"> Ref: #{{ data?.orderId }}</h1>
+
+                <UButton color="gray" variant="ghost" icon="i-heroicons-x-mark-20-solid" class="-my-1" @click="$emit('close')"/>
+
+            </div>
         </template>
         <div class="flex flex-col gap-y-2">
 
