@@ -78,6 +78,15 @@ function openUserDetailsModal(user){
   })
 }
 
+const showedOrders = computed(() => {
+	const { page, limit } = pagination.value;
+	// sort from last updated one
+	const sortedOrders = [...orders?.value]?.sort(
+		(a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)
+	)
+	return sortedOrders.slice((page - 1) * limit, page * limit)
+})
+
 
 </script>
 
@@ -96,7 +105,7 @@ function openUserDetailsModal(user){
 	<UTable
 
 		:columns="columns"
-		:rows="orders || []"
+		:rows="showedOrders"
 		:loading:="pending"
 	>
 		<template #orderId-data="{ row }">
@@ -135,5 +144,5 @@ function openUserDetailsModal(user){
 		
 		
 	</UTable>
-	<UPagination v-model="pagination.page" :page-count="5" :total="orders?.length" />
+	<UPagination v-model="pagination.page" :page-count="pagination.limit" :total="orders?.length" />
 </template>

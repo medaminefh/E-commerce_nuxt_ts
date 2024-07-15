@@ -55,6 +55,15 @@ const columns = [
 	},
 ];
 
+const showedClients = computed(() => {
+	const { page, limit } = pagination.value;
+	// sort from last updated one
+	const sortedClients = [...clients?.value]?.sort(
+		(a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)
+	)
+	return sortedClients.slice((page - 1) * limit, page * limit)
+})
+
 </script>
 
 <template>
@@ -79,13 +88,13 @@ const columns = [
 			ui: { rounded: 'rounded-full' },
 		}"
 		:columns="columns"
-		:rows="clients"
+		:rows="showedClients"
 		:loading:="pending"
 	>
 	<template #createdAt-data="{row}">
 		{{ new Date(row.createdAt).toLocaleDateString() }}
 	</template>
 	</UTable>
-	<UPagination v-model="pagination.page" :page-count="5" :total="clients.length" />
+	<UPagination v-model="pagination.page" :page-count="pagination.limit" :total="clients.length" />
 </template>
 

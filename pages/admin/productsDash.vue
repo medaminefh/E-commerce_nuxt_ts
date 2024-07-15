@@ -97,6 +97,15 @@ const columns = [
 	},
 ];
 
+const showedProducts = computed(() => {
+	const { page, limit } = pagination.value;
+	// sort from last updated one
+	const sortedProducts = [...products?.value]?.sort(
+		(a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)
+	)
+	return sortedProducts.slice((page - 1) * limit, page * limit)
+})
+
 const selectedColumns = ref([...columns]);
 
 </script>
@@ -140,7 +149,7 @@ const selectedColumns = ref([...columns]);
 	<UTable
 		v-model="selectedRows"
 		:columns="selectedColumns"
-		:rows="products"
+		:rows="showedProducts"
 		:loading:="pending"
 	>
 		<template #_id-data="{ row }">
@@ -174,5 +183,5 @@ const selectedColumns = ref([...columns]);
 				<UButton color="white" rounded label="update" @click="() => $router.push(`/admin/products/${row._id}`)"/>
 		</template>
 	</UTable>
-	<UPagination v-model="pagination.page" :page-count="5" :total="products.length" />
+	<UPagination v-model="pagination.page" :page-count="pagination.limit" :total="products.length" />
 </template>
