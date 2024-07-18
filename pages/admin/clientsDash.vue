@@ -11,7 +11,7 @@ const pagination = ref({
 	limit: 10,
 });
 
-const { data: clients, pending } = await useFetch(
+const { data: clients, pending } = useFetch(
 	`/api/clients`,
 	{
 		method: "GET",
@@ -58,9 +58,9 @@ const columns = [
 const showedClients = computed(() => {
 	const { page, limit } = pagination.value;
 	// sort from last updated one
-	const sortedClients = [...clients?.value]?.sort(
+	const sortedClients = clients.value ? [...clients.value]?.sort(
 		(a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)
-	)
+	) : []
 	return sortedClients.slice((page - 1) * limit, page * limit)
 })
 
@@ -89,12 +89,12 @@ const showedClients = computed(() => {
 		}"
 		:columns="columns"
 		:rows="showedClients"
-		:loading:="pending"
+		:loading="pending"
 	>
 	<template #createdAt-data="{row}">
 		{{ new Date(row.createdAt).toLocaleDateString() }}
 	</template>
 	</UTable>
-	<UPagination v-model="pagination.page" :page-count="pagination.limit" :total="clients.length" />
+	<UPagination v-model="pagination.page" :page-count="pagination.limit" :total="clients?.length" />
 </template>
 

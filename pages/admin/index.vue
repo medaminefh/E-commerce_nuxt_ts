@@ -29,7 +29,7 @@ const { data, pending } = useFetch("/api/dashboard", {
 					<UIcon name="i-heroicons-shopping-bag" color="black" size="2xl" />
 					Products
 					<span class="text-lg text-gray-700 dark:text-gray-100">
-						({{ pending ? 0 : data.totalProducts }})
+						({{ pending ? 0 : data.products }})
 					</span>
 				</div>
 			</div>
@@ -46,7 +46,7 @@ const { data, pending } = useFetch("/api/dashboard", {
 					<UIcon name="i-heroicons-user-group" color="black" size="2xl" />
 					Clients
 					<span class="text-lg text-gray-700 dark:text-gray-100">
-						({{pending ? 0 : data.totalUsers }})
+						({{pending ? 0 : data.users }})
 					</span>
 				</div>
 			</div>
@@ -67,7 +67,7 @@ const { data, pending } = useFetch("/api/dashboard", {
 					/>
 					Orders
 					<span class="text-lg text-gray-700 dark:text-gray-100">
-						({{ pending ? 0 : data.totalOrders }})
+						({{ pending ? 0 : data.orders }})
 					</span>
 				</div>
 			</div>

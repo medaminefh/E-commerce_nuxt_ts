@@ -13,7 +13,7 @@ const pagination = ref({
 	limit: 10,
 });
 
-const { data: orders, pending } = await useLazyFetch(
+const { data: orders, pending } = useFetch(
 	`/api/orders`,
 	{
 		method: "GET",
@@ -81,9 +81,9 @@ function openUserDetailsModal(user){
 const showedOrders = computed(() => {
 	const { page, limit } = pagination.value;
 	// sort from last updated one
-	const sortedOrders = [...orders?.value]?.sort(
+	const sortedOrders = orders.value ? [...orders.value]?.sort(
 		(a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)
-	)
+	) : []
 	return sortedOrders.slice((page - 1) * limit, page * limit)
 })
 
@@ -103,10 +103,9 @@ const showedOrders = computed(() => {
 	<div class="flex justify-between gap-x-4 py-3.5 border-b border-gray-200">
 </div>
 	<UTable
-
 		:columns="columns"
 		:rows="showedOrders"
-		:loading:="pending"
+		:loading="pending"
 	>
 		<template #orderId-data="{ row }">
 			#{{ row.orderId}}

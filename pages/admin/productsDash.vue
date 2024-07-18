@@ -10,7 +10,7 @@ const pagination = ref({
 	limit: 10,
 });
 
-const { data: products, pending } = await useFetch(
+const { data: products, pending } = useFetch(
 	`/api/products/adminProducts`,
 	{
 		method: "GET",
@@ -25,7 +25,7 @@ const onSubmit = async (e) => {
 	const ids = selectedRows.value.map((row) => row._id);
 	const toast = useToast();
 	try {
-		const { data } = await useLazyFetch(
+		const { data } = await useFetch(
 			`/api/products/unpublish`,
 			{
 				method: "PATCH",
@@ -36,7 +36,7 @@ const onSubmit = async (e) => {
 			}
 		);
 		if(data) {
-			products.value = products.value.map((product) => {
+			products.value = products.value?.map((product) => {
 				if (ids.includes(product._id)) {
 					product.published = false;
 				}
@@ -100,9 +100,9 @@ const columns = [
 const showedProducts = computed(() => {
 	const { page, limit } = pagination.value;
 	// sort from last updated one
-	const sortedProducts = [...products?.value]?.sort(
+	const sortedProducts = products.value ? [...products.value]?.sort(
 		(a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)
-	)
+	) : []
 	return sortedProducts.slice((page - 1) * limit, page * limit)
 })
 
@@ -150,7 +150,7 @@ const selectedColumns = ref([...columns]);
 		v-model="selectedRows"
 		:columns="selectedColumns"
 		:rows="showedProducts"
-		:loading:="pending"
+		:loading="pending"
 	>
 		<template #_id-data="{ row }">
 			<NuxtImg :src="row.image" :alt="row.image" class="w-10 h-10" />
@@ -183,5 +183,5 @@ const selectedColumns = ref([...columns]);
 				<UButton color="white" rounded label="update" @click="() => $router.push(`/admin/products/${row._id}`)"/>
 		</template>
 	</UTable>
-	<UPagination v-model="pagination.page" :page-count="pagination.limit" :total="products.length" />
+	<UPagination v-model="pagination.page" :page-count="pagination.limit" :total="products?.length" />
 </template>
