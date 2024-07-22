@@ -59,7 +59,7 @@ const showedClients = computed(() => {
 	const { page, limit } = pagination.value;
 	// sort from last updated one
 	const sortedClients = clients.value ? [...clients.value]?.sort(
-		(a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)
+		(a, b) => new Date(b.createdAt) - new Date(a.createdAt)
 	) : []
 	return sortedClients.slice((page - 1) * limit, page * limit)
 })

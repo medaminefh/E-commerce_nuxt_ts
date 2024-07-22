@@ -82,7 +82,7 @@ const showedOrders = computed(() => {
 	const { page, limit } = pagination.value;
 	// sort from last updated one
 	const sortedOrders = orders.value ? [...orders.value]?.sort(
-		(a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)
+		(a, b) => new Date(b.createdAt) - new Date(a.createdAt)
 	) : []
 	return sortedOrders.slice((page - 1) * limit, page * limit)
 })
